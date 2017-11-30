@@ -1,4 +1,4 @@
-package com.cs213.androidproject.chess_android_56;
+package com.cs213.androidproject.chess_android_56.Main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
+
+import com.cs213.androidproject.chess_android_56.R;
+
+import static com.cs213.androidproject.chess_android_56.R.layout.board;
 
 public class MainActivity extends AppCompatActivity {
 
