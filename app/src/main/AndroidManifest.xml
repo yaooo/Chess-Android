@@ -19,8 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.NewGameActivity" />
-        <activity android:name=".Controller.History"></activity>
-    </application>
 
+        <activity
+            android:name=".Controller.NewGameActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".Controller.History"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+    </application>
 </manifest>

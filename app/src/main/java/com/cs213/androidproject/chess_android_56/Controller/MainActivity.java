@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Start a new game
         Button history_button = (Button)findViewById(R.id.history);
-        newGame_button.setOnClickListener(new View.OnClickListener() {
+        history_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchHistoryActivity();
             }
