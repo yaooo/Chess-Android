@@ -5,4 +5,8 @@
     <string name="exit">Exit</string>
     <string name="history">History</string>
     <string name="new_game">New Game</string>
+    <string name="resign">Resign</string>
+    <string name="undo">Undo</string>
+    <string name="ai">AI</string>
+    <string name="draw">Draw</string>
 </resources>

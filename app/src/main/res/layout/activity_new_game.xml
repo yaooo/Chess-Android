@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:text="Draw" />
+            android:text="@string/draw" />
 
         <Button
             android:id="@+id/resign"
@@ -35,7 +35,7 @@
             android:layout_marginStart="11dp"
             android:layout_toEndOf="@+id/draw"
             android:layout_toRightOf="@+id/draw"
-            android:text="Resign" />
+            android:text="@string/resign" />
 
         <Button
             android:id="@+id/ai"
@@ -48,7 +48,7 @@
             android:layout_marginRight="12dp"
             android:layout_toLeftOf="@+id/undo"
             android:layout_toStartOf="@+id/undo"
-            android:text="AI" />
+            android:text="@string/ai" />
 
         <Button
             android:id="@+id/undo"
@@ -60,6 +60,25 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text="Undo" />
+            android:text="@string/undo" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="38dp"
+            android:columnCount="8"
+            android:rowCount="8">
+
+
+        </GridLayout>
+    </RelativeLayout>
+
 </LinearLayout>
