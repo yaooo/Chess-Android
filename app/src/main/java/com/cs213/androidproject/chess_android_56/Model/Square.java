@@ -97,6 +97,7 @@ public class Square implements Cloneable {
 	 */
 	public String getPieceColor()
 	{
+
 		if(occupyingPiece.isWhite)
 			return "w";
 		else
