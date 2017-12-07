@@ -11,9 +11,12 @@ import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs213.androidproject.chess_android_56.R;
+
+import static java.security.AccessController.getContext;
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -25,7 +28,7 @@ public class NewGameActivity extends AppCompatActivity {
 
 
         // TODO for later usage
-        GridLayout board = (GridLayout)findViewById(R.id.boardlayout);
+        GridLayout board = (GridLayout)findViewById(R.id.boardLayout);
 
         String temp = "a8";
 

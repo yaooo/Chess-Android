@@ -9,4 +9,6 @@
     <string name="undo">Undo</string>
     <string name="ai">AI</string>
     <string name="draw">Draw</string>
+    <string name="player1">Player1</string>
+    <string name="player2">Player2</string>
 </resources>
