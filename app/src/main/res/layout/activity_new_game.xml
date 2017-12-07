@@ -98,6 +98,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
+            android:contentDescription="@string/chess_board"
             app:srcCompat="@drawable/graphBoard" />
 
         <GridLayout
