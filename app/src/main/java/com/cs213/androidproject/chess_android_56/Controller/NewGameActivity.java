@@ -2,6 +2,7 @@ package com.cs213.androidproject.chess_android_56.Controller;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,9 @@ public class NewGameActivity extends AppCompatActivity {
 
     private static int start = -1;
     private static int end = -1;
+    private static String startPos = "";
+    private static String endPos = "";
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,27 +56,47 @@ public class NewGameActivity extends AppCompatActivity {
         if(start != -1 && end != -1){
             start = -1;
             end = -1;
+            startPos = "";
+            endPos = "";
         }
 
         if(start == -1){
             start = id;
-        }else if(end == -1){
+            ImageView starting = (ImageView)findViewById(start);
+            starting.setBackgroundColor(Color.LTGRAY);
+            startPos = getId(v);
+            return;
+        }
+        else if(end == -1){
             end = id;
+            ImageView starting = (ImageView)findViewById(start);
+            starting.setBackgroundColor(Color.TRANSPARENT);
+            endPos = getId(v);
         }
 
         if(start != -1 && end != -1) {
-            ImageView startPos = (ImageView)findViewById(start);
-            ImageView endPos = (ImageView)findViewById(end);
+            ImageView starting = (ImageView)findViewById(start);
+            ImageView ending = (ImageView)findViewById(end);
 
-            Drawable draw = startPos.getDrawable();
-            startPos.setImageResource(android.R.color.transparent); // make it transparent
+            Drawable draw = starting.getDrawable();
+            starting.setImageResource(android.R.color.transparent); // make it transparent
 
-            endPos.setImageDrawable(draw);
+            ending.setImageDrawable(draw);
         }
         Log.i("The onClick id is:", ""+v.getId());
     }
 
-
+    /**
+     * @return "[package]:id/[xml-id]"
+     * where [package] is your package and [xml-id] is id of view
+     * or "no-id" if there is no id
+     */
+    private String getId(View view) {
+        String id = view.getResources().getResourceName(view.getId());
+        id = id.substring(id.length()-2);
+        Log.i("The ID in string is ", id);
+        return id;
+    }
 
     private static boolean draw =false;
 
