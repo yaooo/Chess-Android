@@ -8,125 +8,129 @@ public class Square implements Cloneable {
     /**
      * The piece that occupied this square
      */
-	private Piece occupyingPiece;
+    private Piece occupyingPiece;
 
     /**
      * Indicate if it si black
      */
-	private boolean isBlack;
+    private boolean isBlack;
 
-	/**
-	 * Constructor of Square
-	 * @param color Color of the piece, should be "w" or "b"
-	 */
-	public Square(String color) {
-		this(null, color);
-	}
+    /**
+     * Constructor of Square
+     *
+     * @param color Color of the piece, should be "w" or "b"
+     */
+    public Square(String color) {
+        this(null, color);
+    }
 
-	/**
-	 * @param piece The piece
-	 * @param color Color of the piece, should be "w" or "b"
-	 */
-	public Square(Piece piece, String color) {
-		occupyingPiece = piece;
-		isBlack = color.equals("black");
-	}
+    /**
+     * @param piece The piece
+     * @param color Color of the piece, should be "w" or "b"
+     */
+    public Square(Piece piece, String color) {
+        occupyingPiece = piece;
+        isBlack = color.equals("black");
+    }
 
-	/**
-	 * Constructor of Square
-	 * @param piece The piece
-	 * @param isBlack If the piece is black
-	 */
-	public Square(Piece piece, boolean isBlack){
-		this.occupyingPiece = piece;
-		this.isBlack = isBlack;
-	}
+    /**
+     * Constructor of Square
+     *
+     * @param piece   The piece
+     * @param isBlack If the piece is black
+     */
+    public Square(Piece piece, boolean isBlack) {
+        this.occupyingPiece = piece;
+        this.isBlack = isBlack;
+    }
 
-	/**
-	 * Sets the occupying piece of the square to the passed parameter
-	 * @param piece The piece
-	 * @return void
-	 */
-	public void setPiece(Piece piece) {
-		occupyingPiece = piece;
-	}
+    /**
+     * Sets the occupying piece of the square to the passed parameter
+     *
+     * @param piece The piece
+     * @return void
+     */
+    public void setPiece(Piece piece) {
+        occupyingPiece = piece;
+    }
 
-	/**
-	 * getPiece()
-	 * @return Piece
-	 * Returns piece occupying the instance of the square on which this method is invoked
-	 */
-	public Piece getPiece()
-	{
-		return occupyingPiece;
-	}
+    /**
+     * getPiece()
+     *
+     * @return Piece
+     * Returns piece occupying the instance of the square on which this method is invoked
+     */
+    public Piece getPiece() {
+        return occupyingPiece;
+    }
 
-	
-	/**
-	 * getPieceType()
-	 * @return String
-	 * Returns class type of the piece occupying the instance of the square on which this method is invoked
-	 */
-	public String getPieceType() {
-		if(occupyingPiece==null) {
-			return null;
-		}
-		switch(occupyingPiece.type)
-		{
-			case "rook":
-				return "R";
-			case "knight":
-				return "N";
-			case "bishop":
-				return "B";
-			case "pawn":
-				return "p";
-			case "king":
-				return "K";
-			case "queen":
-				return "Q";
-			default:
-				return "";
-		}
-	}
 
-	/**
-	 * getPieceColor()
-	 * @return String
-	 * Returns color of piece occupying the instance of the square on which this method is invoked
-	 */
-	public String getPieceColor()
-	{
-		if(occupyingPiece==null){
-			return "@";
-		}
+    /**
+     * getPieceType()
+     *
+     * @return String
+     * Returns class type of the piece occupying the instance of the square on which this method is invoked
+     */
+    public String getPieceType() {
+        if (occupyingPiece == null) {
+            return null;
+        }
+        switch (occupyingPiece.type) {
+            case "rook":
+                return "R";
+            case "knight":
+                return "N";
+            case "bishop":
+                return "B";
+            case "pawn":
+                return "p";
+            case "king":
+                return "K";
+            case "queen":
+                return "Q";
+            default:
+                return "";
+        }
+    }
 
-		if(occupyingPiece.isWhite)
-			return "w";
-		else
-			return "b";
-	}
+    /**
+     * getPieceColor()
+     *
+     * @return String
+     * Returns color of piece occupying the instance of the square on which this method is invoked
+     */
+    public String getPieceColor() {
+        if (occupyingPiece == null) {
+            return "@";
+        }
 
-	/**
-	 * isSquareBlack()
-	 * @return boolean
-	 * Returns true if square is black
-	 */
-	public boolean isSquareBlack()
-	{
-		return isBlack;
-	}
+        if (occupyingPiece.isWhite)
+            return "w";
+        else
+            return "b";
+    }
 
-	/**
-	 * toString()
-	 * @return String
-	 * Returns string of piece color and type of piece occupying the square
-     * */
-	public String toString() {
-		return getPieceColor() + getPieceType();
-	}
+    /**
+     * isSquareBlack()
+     *
+     * @return boolean
+     * Returns true if square is black
+     */
+    public boolean isSquareBlack() {
+        return isBlack;
+    }
 
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
+    /**
+     * toString()
+     *
+     * @return String
+     * Returns string of piece color and type of piece occupying the square
+     */
+    public String toString() {
+        return getPieceColor() + getPieceType();
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
