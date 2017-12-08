@@ -18,6 +18,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 import com.cs213.androidproject.chess_android_56.Model.*;
 import com.cs213.androidproject.chess_android_56.R;
@@ -77,7 +80,71 @@ public class NewGameActivity extends AppCompatActivity {
         gameLog=gameLog.substring(gameLog.length()-6);
         return;
     }
-    public void ImageOnClick(View v) throws InterruptedException {
+    public void drawButton(View v){
+        AlertDialog.Builder builder;
+        final Intent intent = new Intent(this, MainActivity.class);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+        alertDialogBuilder.setTitle("Draw?");
+        alertDialogBuilder.setMessage("Are you sure you want to end the game in a draw?");
+        alertDialogBuilder
+                .setMessage("End on a draw?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+    public void resignButton(View v){
+        AlertDialog.Builder builder;
+        final Intent intent = new Intent(this, MainActivity.class);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+
+        if(whiteTurn) {
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game white player?");
+        }
+        else{
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game black player?");
+        }
+        alertDialogBuilder
+                .setMessage("Concede?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+    }
+    public void ImageOnClick(View v) {
         int id = v.getId();
         if (start != -1 && end != -1) {
             start = -1;
@@ -149,7 +216,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
     private static boolean draw = false;
 
-    private void game() throws InterruptedException {
+    private void game() {
 
         if (startPos.length() == 2 && endPos.length() == 2) {
 
@@ -169,7 +236,7 @@ public class NewGameActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn ) {
+                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
                     makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
@@ -181,14 +248,14 @@ public class NewGameActivity extends AppCompatActivity {
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
                     validMove = true;
                     if (b.getSquare(endPos).getPieceType().equals("K")) {
-                        if (b.getSquare(endPos).getPiece().isWhite()  && whiteTurn) {
+                        if (b.getSquare(endPos).getPiece().isWhite() == true && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             whiteCap = true;
                             break;
-                        } else if (b.getSquare(endPos).getPiece().isWhite()  && !(whiteTurn)) {
+                        } else if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
                             blackCap = true;
                             break;
                         }
@@ -227,6 +294,7 @@ public class NewGameActivity extends AppCompatActivity {
                     } else if (blackKing.getPiece().checkMate(b)) {
                         makeToast("White wins");
                         finishGame(false);
+
                     }
 
                     if(validMove=true){
@@ -247,11 +315,11 @@ public class NewGameActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void finishGame(boolean blackWins) throws InterruptedException {
+    private void finishGame(boolean blackWins) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
         startActivity(intent);
+        finish();
     }
 
 }
