@@ -15,25 +15,27 @@
         android:visibility="visible">
 
     <Button
-            android:id="@+id/draw"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:background="@color/Wheat"
-            android:text="@string/draw" />
+        android:id="@+id/draw"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:background="@color/Wheat"
+        android:onClick="drawButton"
+        android:text="@string/draw" />
 
-        <Button
-            android:id="@+id/resign"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:background="@color/saddleBrown"
-            android:layout_alignBaseline="@+id/ai"
-            android:layout_alignBottom="@+id/ai"
-            android:layout_marginStart="11dp"
-            android:layout_toEndOf="@+id/draw"
-            android:text="@string/resign" />
+    <Button
+        android:id="@+id/resign"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ai"
+        android:layout_alignBottom="@+id/ai"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/draw"
+        android:background="@color/saddleBrown"
+        android:onClick="resignButton"
+        android:text="@string/resign" />
 
         <Button
             android:id="@+id/ai"

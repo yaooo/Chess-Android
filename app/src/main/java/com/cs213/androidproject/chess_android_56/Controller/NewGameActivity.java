@@ -1,6 +1,7 @@
 package com.cs213.androidproject.chess_android_56.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 import com.cs213.androidproject.chess_android_56.Model.*;
 import com.cs213.androidproject.chess_android_56.R;
@@ -75,6 +79,70 @@ public class NewGameActivity extends AppCompatActivity {
         whiteTurn=!whiteTurn;
         gameLog=gameLog.substring(gameLog.length()-6);
         return;
+    }
+    public void drawButton(View v){
+        AlertDialog.Builder builder;
+        final Intent intent = new Intent(this, MainActivity.class);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+        alertDialogBuilder.setTitle("Draw?");
+        alertDialogBuilder.setMessage("Are you sure you want to end the game in a draw?");
+        alertDialogBuilder
+                .setMessage("End on a draw?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+    public void resignButton(View v){
+        AlertDialog.Builder builder;
+        final Intent intent = new Intent(this, MainActivity.class);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+
+        if(whiteTurn) {
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game white player?");
+        }
+        else{
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game black player?");
+        }
+        alertDialogBuilder
+                .setMessage("Concede?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
     }
     public void ImageOnClick(View v) {
         int id = v.getId();
