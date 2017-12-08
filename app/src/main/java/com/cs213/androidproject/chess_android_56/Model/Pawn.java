@@ -40,6 +40,9 @@ public class Pawn extends Piece{
 	        	 EnPassant=true;
 	        	 return true;
 	         }
+
+	         //ranks=rows;
+			 //file=column
 	         else if(dest_rank==start_rank-1 && 
 	        		 dest_file==start_file-1 && 
 	        		 b[dest_rank][dest_file].getPiece()==null && 
@@ -84,12 +87,12 @@ public class Pawn extends Piece{
         	 else if(dest_rank==start_rank+1 && 
 	        		 dest_file==start_file-1 && 
 	        		 b[dest_rank][dest_file].getPiece()==null && 
-	        				 !(b[start_rank][start_file-1].getPiece()==null) &&
+					 !(b[start_rank][start_file-1].getPiece()==null) &&
 	        		 b[start_rank][start_file-1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file-1].getPiece().isWhite()==true &&  
 	        		 b[start_rank][start_file-1].getPiece().getEnpassant()==true) {
 				 b[start_rank][start_file-1].setPiece(null);
-				 pas=passanted(start_rank,start_file+1);
+				 pas=passanted(start_rank,start_file-1);
 				 System.out.println(pas+"zzz");
 	        	 board.setBoard(b);
 	        	 return true;
@@ -102,7 +105,7 @@ public class Pawn extends Piece{
 	        		 b[start_rank][start_file+1].getPiece().isWhite()==true &&  
 	        		 b[start_rank][start_file+1].getPiece().getEnpassant()==true) {
 	        	 b[start_rank][start_file+1].setPiece(null);
-				 pas=passanted(start_file+1,start_rank);
+				 pas=passanted(start_rank,start_file+1);
 				System.out.println("ZZZ"+pas);
 	        	 board.setBoard(b);
 	        	 return true;
