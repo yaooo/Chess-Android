@@ -35,10 +35,10 @@ public class NewGameActivity extends AppCompatActivity {
     private static int end = -1;
     private static String startPos = "";
     private static String endPos = "";
-    private static int pstart=-1;
-    private static int pend=-1;
-    private static String psp="";
-    private static String pep="";
+    private static int pstart = -1;
+    private static int pend = -1;
+    private static String psp = "";
+    private static String pep = "";
     Board b = new Board();
     private static Square whiteKing;
     private static Square blackKing;
@@ -46,9 +46,10 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean blackCap = false;
     private boolean whiteCap = false;
     private boolean validMove = false;
-    private boolean passantdraw=false;
+    private boolean passantdraw = false;
+    private static boolean draw = false;
     private String passantLocation;
-    private String gameLog="";
+    private String gameLog = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,29 +59,22 @@ public class NewGameActivity extends AppCompatActivity {
         b.initBoard();
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
-        
-       /* // TODO for later usage
-        GridLayout board = (GridLayout)findViewById(R.id.boardLayout);
 
-        String temp = "a8";
-
-        Resources res = getResources();
-        int id = res.getIdentifier(temp, "id", NewGameActivity.this.getPackageName());
-
-        findViewById(id);*/
     }
-    public void undoClick(View v){
-        b.getSquare(pep).getPiece().move(pep,psp,b);
+
+    public void undoClick(View v) {
+        b.getSquare(pep).getPiece().move(pep, psp, b);
         ImageView starting = (ImageView) findViewById(pend);
         ImageView ending = (ImageView) findViewById(pstart);
         Drawable draw = starting.getDrawable();
         starting.setImageResource(android.R.color.transparent); // make it transparent
         ending.setImageDrawable(draw);
-        whiteTurn=!whiteTurn;
-        gameLog=gameLog.substring(gameLog.length()-6);
+        whiteTurn = !whiteTurn;
+        gameLog = gameLog.substring(gameLog.length() - 6);
         return;
     }
-    public void drawButton(View v){
+
+    public void drawButton(View v) {
         AlertDialog.Builder builder;
         final Intent intent = new Intent(this, MainActivity.class);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
@@ -89,16 +83,16 @@ public class NewGameActivity extends AppCompatActivity {
         alertDialogBuilder
                 .setMessage("End on a draw?")
                 .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
 
                         startActivity(intent);
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing
                         dialog.cancel();
@@ -109,30 +103,30 @@ public class NewGameActivity extends AppCompatActivity {
         // show it
         alertDialog.show();
     }
-    public void resignButton(View v){
+
+    public void resignButton(View v) {
         AlertDialog.Builder builder;
         final Intent intent = new Intent(this, MainActivity.class);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
 
-        if(whiteTurn) {
+        if (whiteTurn) {
             alertDialogBuilder.setTitle("Are you sure you want to concede the game white player?");
-        }
-        else{
+        } else {
             alertDialogBuilder.setTitle("Are you sure you want to concede the game black player?");
         }
         alertDialogBuilder
                 .setMessage("Concede?")
                 .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
 
                         startActivity(intent);
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing
                         dialog.cancel();
@@ -144,6 +138,7 @@ public class NewGameActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
+
     public void ImageOnClick(View v) {
         int id = v.getId();
         if (start != -1 && end != -1) {
@@ -174,19 +169,19 @@ public class NewGameActivity extends AppCompatActivity {
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
                 ending.setImageDrawable(draw);
-                if(passantdraw){
+                if (passantdraw) {
                     Resources res = getResources();
                     int id2 = res.getIdentifier(passantLocation, "id", NewGameActivity.this.getPackageName());
-                    ImageView op=(ImageView)findViewById(id2);
+                    ImageView op = (ImageView) findViewById(id2);
                     op.setImageResource(android.R.color.transparent);
-                    passantdraw=false;
-                    passantLocation="";
+                    passantdraw = false;
+                    passantLocation = "";
                 }
-                pstart=start;
-                pend=end;
-                psp=startPos;
-                pep=endPos;
-                gameLog+= psp+","+pep+"|";
+                pstart = start;
+                pend = end;
+                psp = startPos;
+                pep = endPos;
+                gameLog += psp + "," + pep + "|";
                 System.out.println(gameLog);
             } else {
             }
@@ -208,35 +203,32 @@ public class NewGameActivity extends AppCompatActivity {
         return id;
     }
 
-    private void makeToast(String a){
+    private void makeToast(String a) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context,a,duration);
+        Toast toast = Toast.makeText(context, a, duration);
         toast.show();
     }
-    private static boolean draw = false;
 
     private void game() {
 
         if (startPos.length() == 2 && endPos.length() == 2) {
 
-            validMove=false;
+            validMove = false;
             //TODO: do the moves
 
             Pawn PassantTrack = null;
             while (!(whiteKing.getPiece().checkMate(b)) && !(blackKing.getPiece().checkMate(b))) {
-                if(b.getSquare(startPos).getPiece()==null){
-                    validMove=false;
-                    if(whiteTurn){
+                if (b.getSquare(startPos).getPiece() == null) {
+                    validMove = false;
+                    if (whiteTurn) {
                         makeToast("illegal move. please select a piece white player");
                         return;
-                    }
-                    else{
+                    } else {
                         makeToast("illegal move. please select a piece black player");
                         return;
                     }
-                }
-                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
+                } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
                     makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
@@ -247,14 +239,13 @@ public class NewGameActivity extends AppCompatActivity {
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
                     validMove = true;
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
-                        if (b.getSquare(startPos).getPiece().isWhite() ==true && whiteTurn) {
+                        if (b.getSquare(startPos).getPiece().isWhite() == true && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
 
                         } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         }
-                    }
-                    else if (b.getSquare(endPos).getPiece()!=null && b.getSquare(endPos).getPieceType().equals("K")) {
+                    } else if (b.getSquare(endPos).getPiece() != null && b.getSquare(endPos).getPieceType().equals("K")) {
 
                         if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
                             whiteCap = true;
@@ -266,17 +257,12 @@ public class NewGameActivity extends AppCompatActivity {
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
 
 
-
-
-
-
                     if (b.getSquare(endPos).getPieceType().equals("p")) {
-                        if(b.getSquare(endPos).getPiece().getPas()!=null){
-                            passantdraw=true;
-                            passantLocation=b.getSquare(endPos).getPiece().getPas();
+                        if (b.getSquare(endPos).getPiece().getPas() != null) {
+                            passantdraw = true;
+                            passantLocation = b.getSquare(endPos).getPiece().getPas();
                             b.getSquare(endPos).getPiece().setPas();
-                        }
-                        else if (PassantTrack == null) {
+                        } else if (PassantTrack == null) {
                             PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
                         } else {
                             PassantTrack.setEnpassant();
@@ -288,17 +274,15 @@ public class NewGameActivity extends AppCompatActivity {
                     }
                     System.out.println();
                     b.printBoard();
-                    if(whiteCap){
+                    if (whiteCap) {
                         finishGame(true);
-                    }
-                    else if(blackCap){
+                    } else if (blackCap) {
                         finishGame(false);
                     }
 
                     if (whiteKing.getPiece().inCheck(b)) {
                         makeToast("white player in check.");
-                    }
-                    else if (blackKing.getPiece().inCheck(b)) {
+                    } else if (blackKing.getPiece().inCheck(b)) {
                         makeToast("black player in check.");
                     }
                     whiteTurn = !whiteTurn;
@@ -312,24 +296,25 @@ public class NewGameActivity extends AppCompatActivity {
 
                     }
 
-                    if(validMove=true){
+                    if (validMove = true) {
                         return;
                     }
 
                 } else {
                     if (whiteTurn) {
                         makeToast("illegal move for white player, try again");
-                        validMove=false;
+                        validMove = false;
                         return;
                     } else {
                         makeToast("illegal move for black player, try again");
-                        validMove=false;
+                        validMove = false;
                         return;
                     }
                 }
             }
         }
     }
+
     private void finishGame(boolean blackWins) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;

@@ -14,14 +14,15 @@ import com.cs213.androidproject.chess_android_56.R;
 public class EndGame extends AppCompatActivity {
 
     public static boolean blackWins = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
-        Button back = (Button)findViewById(R.id.goBack);
-        TextView title = (TextView)findViewById(R.id.whoWins);
+        Button back = (Button) findViewById(R.id.goBack);
+        TextView title = (TextView) findViewById(R.id.whoWins);
 
-        if(!blackWins){
+        if (!blackWins) {
             title.setText(R.string.WhiteWins);
         }
         back.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +38,7 @@ public class EndGame extends AppCompatActivity {
 
     }
 
-    private void launchNewActivity(){
+    private void launchNewActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         blackWins = true;
         startActivity(intent);

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Start a new game
-        Button newGame_button = (Button)findViewById(R.id.newGame);
+        Button newGame_button = (Button) findViewById(R.id.newGame);
         newGame_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context context = getApplicationContext();
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // History
-        Button history_button = (Button)findViewById(R.id.history);
+        Button history_button = (Button) findViewById(R.id.history);
         history_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchHistoryActivity();
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Exit
-        Button out =(Button)findViewById(R.id.exit);
+        Button out = (Button) findViewById(R.id.exit);
         out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(1);
             }
         });
-
 
 
     }
