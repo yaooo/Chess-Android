@@ -44,6 +44,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean validMove = false;
     private boolean passantdraw=false;
     private String passantLocation;
+    private String gameLog="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class NewGameActivity extends AppCompatActivity {
         starting.setImageResource(android.R.color.transparent); // make it transparent
         ending.setImageDrawable(draw);
         whiteTurn=!whiteTurn;
+        gameLog=gameLog.substring(gameLog.length()-6);
         return;
     }
     public void ImageOnClick(View v) {
@@ -107,7 +109,6 @@ public class NewGameActivity extends AppCompatActivity {
                 if(passantdraw){
                     Resources res = getResources();
                     int id2 = res.getIdentifier(passantLocation, "id", NewGameActivity.this.getPackageName());
-                    System.out.println(passantLocation+"zzzzzzzzz");
                     ImageView op=(ImageView)findViewById(id2);
                     op.setImageResource(android.R.color.transparent);
                     passantdraw=false;
@@ -117,6 +118,8 @@ public class NewGameActivity extends AppCompatActivity {
                 pend=end;
                 psp=startPos;
                 pep=endPos;
+                gameLog+= psp+","+pep+"|";
+                System.out.println(gameLog);
             } else {
             }
 
