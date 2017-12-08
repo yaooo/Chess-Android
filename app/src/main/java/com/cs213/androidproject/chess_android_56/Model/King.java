@@ -100,13 +100,9 @@ public class King extends Piece {
 
         Square startPos = board.getSquare(start);
         Square endPos = board.getSquare(input);
-
-//        Board test = board;
-//        test.getSquare(start).getPiece().move(start,input,test);
-//        System.out.println("test");
-//        if(test.getSquare(input).getPiece().inCheck(test)){
-//        	return false;
-//		}
+		if(illegalMove(start,input,board)){
+			return false;
+		}
 
         // Check nearby squares
         if(endPos.getPieceType() != null) {
@@ -120,7 +116,10 @@ public class King extends Piece {
                     return false;
                 }
             }
+
         }
+
+
         return true;
     }
 
@@ -387,11 +386,29 @@ public class King extends Piece {
     	return true;
     }
 
-    public boolean illegalMove(Board board){
+    public boolean illegalMove(String start,String end,Board board){
 		Square b[][]=board.getBoard();
-		int start_file = kingPos.charAt(0) - 'a';
 		int start_rank= Movement.getRank(Integer.parseInt(kingPos.charAt(1)+""));
-
+		int start_file = kingPos.charAt(0) - 'a';
+		int dest_rank= Movement.getRank(Integer.parseInt(end.charAt(1)+""));
+		int dest_file = end.charAt(0) - 'a';
+		String newKingPos=reverseN(dest_rank,dest_file);
+		String oldKingPos=this.getKingPos();
+		this.kingPos=newKingPos;
+		b[start_rank][start_file].setPiece(null);
+		b[dest_rank][dest_file].setPiece(this);
+		board.setBoard(b);
+		System.out.println(dest_rank+" "+dest_file);
+		System.out.println(board.getSquare(end).getPiece().inCheck(board));
+		if(board.getSquare(end).getPiece().inCheck(board)){
+			b[dest_rank][dest_file].setPiece(null);
+			b[start_rank][start_file].setPiece(this);
+			this.kingPos=oldKingPos;
+			return true ;
+		}
+		b[dest_rank][dest_file].setPiece(null);
+		b[start_rank][start_file].setPiece(this);
+		this.kingPos=oldKingPos;
     	return false;
 	}
 }
