@@ -101,6 +101,13 @@ public class King extends Piece {
         Square startPos = board.getSquare(start);
         Square endPos = board.getSquare(input);
 
+//        Board test = board;
+//        test.getSquare(start).getPiece().move(start,input,test);
+//        System.out.println("test");
+//        if(test.getSquare(input).getPiece().inCheck(test)){
+//        	return false;
+//		}
+
         // Check nearby squares
         if(endPos.getPieceType() != null) {
             // King cannot eat his own people

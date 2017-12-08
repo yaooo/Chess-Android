@@ -245,22 +245,30 @@ public class NewGameActivity extends AppCompatActivity {
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
-                    b.getSquare(startPos).getPiece().move(startPos, endPos, b);
                     validMove = true;
-                    if (b.getSquare(endPos).getPieceType().equals("K")) {
-                        if (b.getSquare(endPos).getPiece().isWhite() == true && whiteTurn) {
+                    if (b.getSquare(startPos).getPieceType().equals("K")) {
+                        if (b.getSquare(startPos).getPiece().isWhite() ==true && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
-                        } else if (b.getSquare(endPos).getPiece().isWhite() == false && !(whiteTurn)) {
-                            blackKing = b.getSquare(endPos);
-                        } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
-                            whiteCap = true;
-                            break;
-                        } else if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
-                            blackCap = true;
-                            break;
-                        }
 
+                        } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
+                            blackKing = b.getSquare(endPos);
+                        }
                     }
+                    else if (b.getSquare(endPos).getPiece()!=null && b.getSquare(endPos).getPieceType().equals("K")) {
+
+                        if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
+                            whiteCap = true;
+                        } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
+                            blackCap = true;
+                        }
+                    }
+
+                    b.getSquare(startPos).getPiece().move(startPos, endPos, b);
+
+
+
+
+
 
                     if (b.getSquare(endPos).getPieceType().equals("p")) {
                         if(b.getSquare(endPos).getPiece().getPas()!=null){
@@ -280,11 +288,18 @@ public class NewGameActivity extends AppCompatActivity {
                     }
                     System.out.println();
                     b.printBoard();
-                    if (whiteKing.getPiece().inCheck(b)) {
-                        System.out.println("white player in check.");
+                    if(whiteCap){
+                        finishGame(true);
                     }
-                    if (blackKing.getPiece().inCheck(b)) {
-                        System.out.println("black player in check.");
+                    else if(blackCap){
+                        finishGame(false);
+                    }
+
+                    if (whiteKing.getPiece().inCheck(b)) {
+                        makeToast("white player in check.");
+                    }
+                    else if (blackKing.getPiece().inCheck(b)) {
+                        makeToast("black player in check.");
                     }
                     whiteTurn = !whiteTurn;
 
