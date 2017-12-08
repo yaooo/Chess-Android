@@ -1,6 +1,7 @@
 package com.cs213.androidproject.chess_android_56.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -76,7 +77,7 @@ public class NewGameActivity extends AppCompatActivity {
         gameLog=gameLog.substring(gameLog.length()-6);
         return;
     }
-    public void ImageOnClick(View v) {
+    public void ImageOnClick(View v) throws InterruptedException {
         int id = v.getId();
         if (start != -1 && end != -1) {
             start = -1;
@@ -148,7 +149,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
     private static boolean draw = false;
 
-    private void game() {
+    private void game() throws InterruptedException {
 
         if (startPos.length() == 2 && endPos.length() == 2) {
 
@@ -168,7 +169,7 @@ public class NewGameActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
+                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn ) {
                     makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
@@ -180,14 +181,14 @@ public class NewGameActivity extends AppCompatActivity {
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
                     validMove = true;
                     if (b.getSquare(endPos).getPieceType().equals("K")) {
-                        if (b.getSquare(endPos).getPiece().isWhite() == true && whiteTurn) {
+                        if (b.getSquare(endPos).getPiece().isWhite()  && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             whiteCap = true;
                             break;
-                        } else if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
+                        } else if (b.getSquare(endPos).getPiece().isWhite()  && !(whiteTurn)) {
                             blackCap = true;
                             break;
                         }
@@ -222,8 +223,10 @@ public class NewGameActivity extends AppCompatActivity {
 
                     if (whiteKing.getPiece().checkMate(b)) {
                         makeToast("Black wins");
+                        finishGame(true);
                     } else if (blackKing.getPiece().checkMate(b)) {
                         makeToast("White wins");
+                        finishGame(false);
                     }
 
                     if(validMove=true){
@@ -241,14 +244,14 @@ public class NewGameActivity extends AppCompatActivity {
                         return;
                     }
                 }
-
-
             }
-
-
-
         }
     }
 
+    private void finishGame(boolean blackWins) throws InterruptedException {
+        Intent intent = new Intent(this, EndGame.class);
+        EndGame.blackWins = blackWins;
+        startActivity(intent);
+    }
 
 }

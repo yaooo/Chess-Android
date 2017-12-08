@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Start a new game
+        // History
         Button history_button = (Button)findViewById(R.id.history);
         history_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
