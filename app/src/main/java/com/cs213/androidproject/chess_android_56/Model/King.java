@@ -386,4 +386,12 @@ public class King extends Piece {
     	}
     	return true;
     }
+
+    public boolean illegalMove(Board board){
+		Square b[][]=board.getBoard();
+		int start_file = kingPos.charAt(0) - 'a';
+		int start_rank= Movement.getRank(Integer.parseInt(kingPos.charAt(1)+""));
+
+    	return false;
+	}
 }
