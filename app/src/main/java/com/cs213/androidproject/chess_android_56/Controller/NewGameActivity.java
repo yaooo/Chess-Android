@@ -126,22 +126,40 @@ public class NewGameActivity extends AppCompatActivity {
         return id;
     }
 
+    private void makeToast(String a){
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context,a,duration);
+        toast.show();
+    }
     private static boolean draw = false;
 
     private void game() {
 
         if (startPos.length() == 2 && endPos.length() == 2) {
+
             validMove=false;
             //TODO: do the moves
 
             Pawn PassantTrack = null;
             while (!(whiteKing.getPiece().checkMate(b)) && !(blackKing.getPiece().checkMate(b))) {
-                if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
-                    System.out.println("invalid move");
+                if(b.getSquare(startPos).getPiece()==null){
+                    validMove=false;
+                    if(whiteTurn){
+                        makeToast("illegal move. please select a piece white player");
+                        return;
+                    }
+                    else{
+                        makeToast("illegal move. please select a piece black player");
+                        return;
+                    }
+                }
+                else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
+                    makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPieceColor().equals("w") && whiteTurn == false) {
-                    System.out.println("invalid move");
+                    makeToast("invalid move for black player, select your own piece");
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
@@ -184,9 +202,9 @@ public class NewGameActivity extends AppCompatActivity {
                     whiteTurn = !whiteTurn;
 
                     if (whiteKing.getPiece().checkMate(b)) {
-                        System.out.println("Black wins");
+                        makeToast("Black wins");
                     } else if (blackKing.getPiece().checkMate(b)) {
-                        System.out.println("White wins");
+                        makeToast("White wins");
                     }
 
                     if(validMove=true){
@@ -194,13 +212,12 @@ public class NewGameActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    System.out.println("illegal move,try again");
                     if (whiteTurn) {
-                        System.out.print("White player make your move:");
+                        makeToast("illegal move for white player, try again");
                         validMove=false;
                         return;
                     } else {
-                        System.out.print("Black player make your move:");
+                        makeToast("illegal move for black player, try again");
                         validMove=false;
                         return;
                     }
