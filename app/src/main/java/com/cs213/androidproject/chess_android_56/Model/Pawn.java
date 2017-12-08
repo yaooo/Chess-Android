@@ -6,6 +6,7 @@ public class Pawn extends Piece{
      * boolean that indicates enPassant status
      */
     private boolean EnPassant;
+    public String pas =null;
 
     /**
      * Constructor for Pawn
@@ -34,7 +35,7 @@ public class Pawn extends Piece{
          
          
          if(this.isWhite()) {
-	         if(hasMoved==false && dest_rank==start_rank-2 && b[dest_rank][dest_file].getPiece()==null && !(Movement.hasPiecesInBetween(start, input, board))) {
+	         if(hasMoved==false && dest_rank==start_rank-2 && dest_file==start_file && b[dest_rank][dest_file].getPiece()==null && !(Movement.hasPiecesInBetween(start, input, board))) {
 	        	 //System.out.println("hello9");
 	        	 EnPassant=true;
 	        	 return true;
@@ -46,8 +47,8 @@ public class Pawn extends Piece{
 	        		 b[start_rank][start_file-1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file-1].getPiece().isWhite()==false &&  
 	        		 b[start_rank][start_file-1].getPiece().getEnpassant()==true) {
-	        	 System.out.println("hello");
 	        	 b[start_rank][start_file-1].setPiece(null);
+				 pas=passanted(start_file-1,start_rank);
 	        	 board.setBoard(b);
 	        	 return true;
 	         }
@@ -58,8 +59,8 @@ public class Pawn extends Piece{
 	        		 b[start_rank][start_file+1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file+1].getPiece().isWhite()==false &&  
 	        		 b[start_rank][start_file+1].getPiece().getEnpassant()==true) {
-	        	 //System.out.println("hello2");
-	        	 b[start_rank][start_file+1].setPiece(null);
+				 b[start_rank][start_file+1].setPiece(null);
+				 pas=passanted(start_file+1,start_rank);
 	        	 board.setBoard(b);
 	        	 return true;
 	         }
@@ -73,7 +74,7 @@ public class Pawn extends Piece{
 	         }
          }
          else {
-        	 if(hasMoved==false && dest_rank==start_rank+2 && b[dest_rank][dest_file].getPiece()==null && !(Movement.hasPiecesInBetween(start, input, board))) {
+        	 if(hasMoved==false && dest_rank==start_rank+2 && dest_file==start_file && b[dest_rank][dest_file].getPiece()==null && !(Movement.hasPiecesInBetween(start, input, board))) {
         		 //System.out.println("hello4");
         		 EnPassant=true;
 	        	 return true;
@@ -85,8 +86,8 @@ public class Pawn extends Piece{
 	        		 b[start_rank][start_file-1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file-1].getPiece().isWhite()==true &&  
 	        		 b[start_rank][start_file-1].getPiece().getEnpassant()==true) {
-        		 //System.out.println("hello5");
-	        	 b[start_rank][start_file-1].setPiece(null);
+				 b[start_rank][start_file-1].setPiece(null);
+				 pas=passanted(start_file-1,start_rank);
 	        	 board.setBoard(b);
 	        	 return true;
 	         }
@@ -97,8 +98,8 @@ public class Pawn extends Piece{
 	        		 b[start_rank][start_file+1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file+1].getPiece().isWhite()==true &&  
 	        		 b[start_rank][start_file+1].getPiece().getEnpassant()==true) {
-        		 //System.out.println("hello6");
 	        	 b[start_rank][start_file+1].setPiece(null);
+				 pas=passanted(start_file+1,start_rank);
 	        	 board.setBoard(b);
 	        	 return true;
 	         }
@@ -156,5 +157,76 @@ public class Pawn extends Piece{
     	EnPassant=false;
     }
 
+    public String passanted(int k, int q){
+		String rank="";
+		String file="";
+			switch(k) {
+				case 0:
+					rank="8";
+					break;
+				case 1:
+					rank="7";
+					break;
+				case 2:
+					rank="6";
+					break;
+				case 3:
+					rank="5";
+					break;
+				case 4:
+					rank="4";
+					break;
+				case 5:
+					rank="3";
+					break;
+				case 6:
+					rank="2";
+					break;
+				case 7:
+					rank="1";
+					break;
+				default:
+					rank="-1";
+			}
 
+			switch(q) {
+				case 0:
+					file="a";
+					break;
+				case 1:
+					file="b";
+					break;
+				case 2:
+					file="c";
+					break;
+				case 3:
+					file="d";
+					break;
+				case 4:
+					file="e";
+					break;
+				case 5:
+					file="f";
+					break;
+				case 6:
+					file="g";
+					break;
+				case 7:
+					file="h";
+					break;
+				default:
+					file="-1";
+			}
+			return file+rank;
+
+
+	}
+
+	public String getPas(){
+    	return pas;
+	}
+
+	public void setPas(){
+		pas=null;
+	}
 }

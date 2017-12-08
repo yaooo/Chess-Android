@@ -42,6 +42,8 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean blackCap = false;
     private boolean whiteCap = false;
     private boolean validMove = false;
+    private boolean passantdraw=false;
+    private String passantLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,15 @@ public class NewGameActivity extends AppCompatActivity {
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
                 ending.setImageDrawable(draw);
+                if(passantdraw){
+                    Resources res = getResources();
+                    int id2 = res.getIdentifier(passantLocation, "id", NewGameActivity.this.getPackageName());
+                    System.out.println(passantLocation+"zzzzzzzzz");
+                    ImageView op=(ImageView)findViewById(id2);
+                    op.setImageResource(android.R.color.transparent);
+                    passantdraw=false;
+                    passantLocation="";
+                }
                 pstart=start;
                 pend=end;
                 psp=startPos;
@@ -181,7 +192,12 @@ public class NewGameActivity extends AppCompatActivity {
                     }
 
                     if (b.getSquare(endPos).getPieceType().equals("p")) {
-                        if (PassantTrack == null) {
+                        if(b.getSquare(endPos).getPiece().getPas()!=null){
+                            passantdraw=true;
+                            passantLocation=b.getSquare(endPos).getPiece().getPas();
+                            b.getSquare(endPos).getPiece().setPas();
+                        }
+                        else if (PassantTrack == null) {
                             PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
                         } else {
                             PassantTrack.setEnpassant();

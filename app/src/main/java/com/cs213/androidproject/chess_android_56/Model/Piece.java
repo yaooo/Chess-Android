@@ -134,4 +134,10 @@ public abstract class Piece implements Cloneable {
         return super.clone();
     }
 
+	public String getPas(){
+		return "";
+	}
+	public void setPas(){
+		return ;
+	}
 }
