@@ -46,16 +46,17 @@
             android:layout_toStartOf="@+id/undo"
             android:text="@string/ai" />
 
-        <Button
-            android:id="@+id/undo"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/ai"
-            android:layout_alignBottom="@+id/ai"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:background="@color/saddleBrown"
-            android:text="@string/undo" />
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ai"
+        android:layout_alignBottom="@+id/ai"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:background="@color/saddleBrown"
+        android:onClick="undoClick"
+        android:text="@string/undo" />
     </RelativeLayout>
 
     <RelativeLayout
