@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import com.cs213.androidproject.chess_android_56.Model.*;
 import com.cs213.androidproject.chess_android_56.R;
 
+import java.lang.reflect.Field;
 import java.util.Scanner;
 
 import static java.security.AccessController.getContext;
@@ -39,7 +40,7 @@ public class NewGameActivity extends AppCompatActivity {
     private static int pend = -1;
     private static String psp = "";
     private static String pep = "";
-    Board b = new Board();
+    private static Board b = new Board();
     private static Square whiteKing;
     private static Square blackKing;
     private boolean whiteTurn = true;
@@ -59,7 +60,6 @@ public class NewGameActivity extends AppCompatActivity {
         b.initBoard();
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
-
     }
 
     public void undoClick(View v) {
@@ -176,6 +176,7 @@ public class NewGameActivity extends AppCompatActivity {
                     op.setImageResource(android.R.color.transparent);
                     passantdraw = false;
                     passantLocation = "";
+                    refresh(b);
                 }
                 pstart = start;
                 pend = end;
@@ -228,7 +229,7 @@ public class NewGameActivity extends AppCompatActivity {
                         makeToast("illegal move. please select a piece black player");
                         return;
                     }
-                } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn == true) {
+                } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn ) {
                     makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
@@ -239,19 +240,21 @@ public class NewGameActivity extends AppCompatActivity {
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
                     validMove = true;
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
-                        if (b.getSquare(startPos).getPiece().isWhite() == true && whiteTurn) {
+                        if (b.getSquare(startPos).getPiece().isWhite()  && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
-
                         } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         }
+                        refresh(b);
+
                     } else if (b.getSquare(endPos).getPiece() != null && b.getSquare(endPos).getPieceType().equals("K")) {
 
-                        if (b.getSquare(endPos).getPiece().isWhite() == true && !(whiteTurn)) {
+                        if (b.getSquare(endPos).getPiece().isWhite()  && !(whiteTurn)) {
                             whiteCap = true;
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             blackCap = true;
                         }
+                        refresh(b);
                     }
 
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
@@ -322,4 +325,47 @@ public class NewGameActivity extends AppCompatActivity {
         finish();
     }
 
+    private void refresh(Board board){
+        Square[][] s = board.getBoard();
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                Square temp = s[i][j];
+                if(temp.getPieceType() == null || temp.getPieceType().length() == 0){
+                    char file = 'a';
+                    file += j;
+                    int rank = 8 - i;
+                    String id = file + "" + rank;
+                    int ID = getResId(id, R.id.class);
+                    Log.i("Position:", ""+file+rank);
+                    ImageView img = (ImageView)findViewById(ID);
+                    img.setImageResource(android.R.color.transparent);
+                }
+                else if(temp.getPieceType().equals("R")){
+                    char file = 'a';
+                    file += j;
+                    int rank = 8 - i;
+                    String id = file + "" + rank;
+
+                    int ID = getResId(id, R.id.class);
+                    ImageView img = (ImageView)findViewById(ID);
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whiterook);
+                    }else{
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                }
+            }
+        }
+    }
+
+    public static int getResId(String resName, Class<?> c) {
+
+        try {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

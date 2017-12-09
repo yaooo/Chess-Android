@@ -86,15 +86,6 @@
             android:text="@string/player2"
             android:textColor="@color/colorBlack" />
 
-        <!--<ImageView
-                android:onClick="ImageOnClick"-->
-        <!--android:layout_width="364dp"-->
-        <!--android:layout_height="364dp"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="48dp"-->
-        <!--app:srcCompat="@android:drawable/screen_background_dark" />-->
-
         <ImageView
             android:id="@+id/graphicBoard"
             android:layout_width="360dp"

@@ -190,7 +190,6 @@ public class King extends Piece {
         b[dest_rank][dest_file].setPiece(king);
         b[start_rank][start_file].setPiece(null);
 
-        System.out.println("NEED to do castling");
         return b;
     }
 

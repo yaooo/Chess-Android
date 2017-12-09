@@ -6,7 +6,7 @@ public class Pawn extends Piece{
      * boolean that indicates enPassant status
      */
     private boolean EnPassant;
-    public String pas =null;
+    private String pas =null;
 
     /**
      * Constructor for Pawn
@@ -46,7 +46,7 @@ public class Pawn extends Piece{
 	        		 !(b[start_rank][start_file-1].getPiece()==null) &&
 	        		 b[start_rank][start_file-1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file-1].getPiece().isWhite()==false &&  
-	        		 b[start_rank][start_file-1].getPiece().getEnpassant()==true) {
+	        		 b[start_rank][start_file-1].getPiece().getEnpassant()) {
 	        	 b[start_rank][start_file-1].setPiece(null);
 				 pas=passanted(start_rank,start_file-1);
 				 System.out.println(pas+"ZZZZZZ");
@@ -59,7 +59,7 @@ public class Pawn extends Piece{
 	        	     !(b[start_rank][start_file+1].getPiece()==null) &&
 	        		 b[start_rank][start_file+1].getPieceType().equals("p") && 
 	        		 b[start_rank][start_file+1].getPiece().isWhite()==false &&  
-	        		 b[start_rank][start_file+1].getPiece().getEnpassant()==true) {
+	        		 b[start_rank][start_file+1].getPiece().getEnpassant()) {
 				 b[start_rank][start_file+1].setPiece(null);
 				 pas=passanted(start_rank,start_file+1);
 				 System.out.println(pas+"ZZZZZZZZZZZZZZ");
@@ -86,8 +86,8 @@ public class Pawn extends Piece{
 	        		 b[dest_rank][dest_file].getPiece()==null && 
 	        				 !(b[start_rank][start_file-1].getPiece()==null) &&
 	        		 b[start_rank][start_file-1].getPieceType().equals("p") && 
-	        		 b[start_rank][start_file-1].getPiece().isWhite()==true &&  
-	        		 b[start_rank][start_file-1].getPiece().getEnpassant()==true) {
+	        		 b[start_rank][start_file-1].getPiece().isWhite() &&  
+	        		 b[start_rank][start_file-1].getPiece().getEnpassant()) {
 				 b[start_rank][start_file-1].setPiece(null);
 				 pas=passanted(start_rank,start_file+1);
 				 System.out.println(pas+"zzz");
@@ -99,8 +99,8 @@ public class Pawn extends Piece{
 	        		 b[dest_rank][dest_file].getPiece()==null && 
 	        		 !(b[start_rank][start_file+1].getPiece()==null) &&
 	        		 b[start_rank][start_file+1].getPieceType().equals("p") && 
-	        		 b[start_rank][start_file+1].getPiece().isWhite()==true &&  
-	        		 b[start_rank][start_file+1].getPiece().getEnpassant()==true) {
+	        		 b[start_rank][start_file+1].getPiece().isWhite() &&  
+	        		 b[start_rank][start_file+1].getPiece().getEnpassant()) {
 	        	 b[start_rank][start_file+1].setPiece(null);
 				 pas=passanted(start_file+1,start_rank);
 				System.out.println("ZZZ"+pas);
