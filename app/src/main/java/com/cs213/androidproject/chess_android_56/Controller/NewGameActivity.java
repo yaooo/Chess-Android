@@ -23,6 +23,8 @@ import android.content.DialogInterface;
 
 
 import com.cs213.androidproject.chess_android_56.Model.*;
+import com.cs213.androidproject.chess_android_56.SubViews.*;
+
 import com.cs213.androidproject.chess_android_56.R;
 
 import java.lang.reflect.Field;
@@ -62,6 +64,8 @@ public class NewGameActivity extends AppCompatActivity {
         blackKing = b.getSquare("e8");
     }
 
+
+    // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
         b.getSquare(pep).getPiece().move(pep, psp, b);
         ImageView starting = (ImageView) findViewById(pend);
@@ -71,7 +75,6 @@ public class NewGameActivity extends AppCompatActivity {
         ending.setImageDrawable(draw);
         whiteTurn = !whiteTurn;
         gameLog = gameLog.substring(gameLog.length() - 6);
-        return;
     }
 
     public void drawButton(View v) {
@@ -162,6 +165,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
 
         if (start != -1 && end != -1) {
+            promotion();
             ImageView starting = (ImageView) findViewById(start);
             ImageView ending = (ImageView) findViewById(end);
             game();
@@ -190,8 +194,6 @@ public class NewGameActivity extends AppCompatActivity {
                 System.out.println(gameLog);
             } else {
             }
-
-
         }
         Log.i("The onClick id is:", "" + v.getId());
     }
@@ -220,7 +222,6 @@ public class NewGameActivity extends AppCompatActivity {
         if (startPos.length() == 2 && endPos.length() == 2) {
 
             validMove = false;
-            //TODO: do the moves
 
             Pawn PassantTrack = null;
             while (!(whiteKing.getPiece().checkMate(b)) && !(blackKing.getPiece().checkMate(b))) {
@@ -326,8 +327,7 @@ public class NewGameActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
         startActivity(intent);
-
-        //TODO: Uncomment it later
+        //TODO: Uncomment it later, keep it for testing purpose
         //finish();
     }
 
@@ -364,8 +364,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    public static int getResId(String resName, Class<?> c) {
-
+    private static int getResId(String resName, Class<?> c) {
         try {
             Field idField = c.getDeclaredField(resName);
             return idField.getInt(idField);
@@ -373,5 +372,10 @@ public class NewGameActivity extends AppCompatActivity {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    private void promotion(){
+        Promotion p = new Promotion();
+        p.show(getFragmentManager(),"Promotion");
     }
 }
