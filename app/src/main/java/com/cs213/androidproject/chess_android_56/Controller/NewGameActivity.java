@@ -178,6 +178,10 @@ public class NewGameActivity extends AppCompatActivity {
                     passantLocation = "";
                     refresh(b);
                 }
+                if((startPos.equals("e1")) || startPos.equals("e8")){
+                    refresh(b);
+                }
+
                 pstart = start;
                 pend = end;
                 psp = startPos;
@@ -322,7 +326,9 @@ public class NewGameActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
         startActivity(intent);
-        finish();
+
+        //TODO: Uncomment it later
+        //finish();
     }
 
     private void refresh(Board board){
