@@ -55,5 +55,15 @@
             android:textColor="@color/colorWhite"
             android:textSize="48sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/goBack"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:onClick="saveGame"
+            android:text="Save Game" />
     </RelativeLayout>
 </RelativeLayout>

@@ -273,10 +273,12 @@ public class NewGameActivity extends AppCompatActivity {
                             PassantTrack = null;
                         }
                         if (whiteCap) {
-                            finishGame(true);
+                            gameLog+= startPos + endPos +'|';
+                            finishGame(true,gameLog);
                             return;
                         } else if (blackCap) {
-                            finishGame(false);
+                            gameLog+= startPos + endPos +'|';
+                            finishGame(false,gameLog);
                             return;
                         }
 
@@ -304,10 +306,12 @@ public class NewGameActivity extends AppCompatActivity {
                         System.out.println();
                         b.printBoard();
                         if (whiteCap) {
-                            finishGame(true);
+                            gameLog+= startPos + endPos +'|';
+                            finishGame(true,gameLog);
                             return;
                         } else if (blackCap) {
-                            finishGame(false);
+                            gameLog+= startPos + endPos +'|';
+                            finishGame(false,gameLog);
                             return;
                         }
 
@@ -319,11 +323,11 @@ public class NewGameActivity extends AppCompatActivity {
 
                         if (whiteKing.getPiece().checkMate(b)) {
                             makeToast("Black wins");
-                            finishGame(true);
+                            finishGame(true,gameLog);
                             return;
                         } else if (blackKing.getPiece().checkMate(b)) {
                             makeToast("White wins");
-                            finishGame(false);
+                            finishGame(false,gameLog);
                             return;
                         }
                     }
@@ -348,9 +352,10 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    public void finishGame(boolean blackWins) {
+    public void finishGame(boolean blackWins,String log) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
+        EndGame.log=log;
         startActivity(intent);
         //TODO: Uncomment it later, keep it for testing purpose
         //finish();
