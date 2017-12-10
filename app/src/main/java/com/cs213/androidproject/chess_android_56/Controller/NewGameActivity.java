@@ -43,6 +43,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean validMove = false;
     private boolean passantdraw = false;
     private boolean undoPassant=false;
+    private boolean undoPromotion=false;
     private String prevPassant="";
     private boolean undid=false;
     private static boolean draw = false;
@@ -69,7 +70,25 @@ public class NewGameActivity extends AppCompatActivity {
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
         if(undid==false){
+            if(undoPromotion){
+                ImageView starting = (ImageView) findViewById(pend);
+                ImageView ending = (ImageView) findViewById(pstart);
+                starting.setImageResource(android.R.color.transparent); // make it transparent
+                if(b.getSquare(pep).getPieceColor().equals("w")){
+                    Pawn temp = new Pawn("white");
+                    b.getSquare(pep).setPiece(temp);
+                    b.getSquare(psp).setPiece(null);
+                    ending.setImageResource(R.drawable.whitepawn);
 
+                }
+                else{
+                    Pawn temp = new Pawn("black");
+                    b.getSquare(psp).setPiece(temp);
+                    b.getSquare(psp).setPiece(null);
+                    ending.setImageResource(R.drawable.blackpawn);
+                }
+                undoPromotion=false;
+            }
             if(undoPassant){
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
@@ -397,6 +416,7 @@ public class NewGameActivity extends AppCompatActivity {
 
                         int ID = NewGameActivity.getResId(endPos, R.id.class);
                         changedImage = (ImageView) findViewById(ID);
+                        undoPromotion=true;
                         promotion();
 
                     } else {
