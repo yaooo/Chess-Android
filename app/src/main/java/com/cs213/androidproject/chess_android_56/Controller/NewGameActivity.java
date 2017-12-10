@@ -5,18 +5,12 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridLayout;
-import android.widget.GridView;
+
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,23 +22,21 @@ import com.cs213.androidproject.chess_android_56.SubViews.*;
 import com.cs213.androidproject.chess_android_56.R;
 
 import java.lang.reflect.Field;
-import java.util.Scanner;
 
-import static java.security.AccessController.getContext;
 
 public class NewGameActivity extends AppCompatActivity {
 
     private static int start = -1;
     private static int end = -1;
-    private static String startPos = "";
-    private static String endPos = "";
+    public static String startPos = "";
+    public static String endPos = "";
     private static int pstart = -1;
     private static int pend = -1;
     private static String psp = "";
     private static String pep = "";
-    private static Board b = new Board();
-    private static Square whiteKing;
-    private static Square blackKing;
+    public static Board b = new Board();
+    public static Square whiteKing;
+    public static Square blackKing;
     private boolean whiteTurn = true;
     private boolean blackCap = false;
     private boolean whiteCap = false;
@@ -53,6 +45,8 @@ public class NewGameActivity extends AppCompatActivity {
     private static boolean draw = false;
     private String passantLocation;
     private String gameLog = "";
+    public static String promoteTo = "Q";
+    public static ImageView changedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +159,6 @@ public class NewGameActivity extends AppCompatActivity {
         }
 
         if (start != -1 && end != -1) {
-            promotion();
             ImageView starting = (ImageView) findViewById(start);
             ImageView ending = (ImageView) findViewById(end);
             game();
@@ -182,7 +175,7 @@ public class NewGameActivity extends AppCompatActivity {
                     passantLocation = "";
                     refresh(b);
                 }
-                if((startPos.equals("e1")) || startPos.equals("e8")){
+                if ((startPos.equals("e1")) || startPos.equals("e8")) {
                     refresh(b);
                 }
 
@@ -198,11 +191,6 @@ public class NewGameActivity extends AppCompatActivity {
         Log.i("The onClick id is:", "" + v.getId());
     }
 
-    /**
-     * @return "[package]:id/[xml-id]"
-     * where [package] is your package and [xml-id] is id of view
-     * or "no-id" if there is no id
-     */
     private String getId(View view) {
         String id = view.getResources().getResourceName(view.getId());
         id = id.substring(id.length() - 2);
@@ -234,7 +222,7 @@ public class NewGameActivity extends AppCompatActivity {
                         makeToast("illegal move. please select a piece black player");
                         return;
                     }
-                } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn ) {
+                } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn) {
                     makeToast("invalid move fow white player, select your own piece");
                     validMove = false;
                     return;
@@ -245,7 +233,7 @@ public class NewGameActivity extends AppCompatActivity {
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
                     validMove = true;
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
-                        if (b.getSquare(startPos).getPiece().isWhite()  && whiteTurn) {
+                        if (b.getSquare(startPos).getPiece().isWhite() && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
                         } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
@@ -254,7 +242,7 @@ public class NewGameActivity extends AppCompatActivity {
 
                     } else if (b.getSquare(endPos).getPiece() != null && b.getSquare(endPos).getPieceType().equals("K")) {
 
-                        if (b.getSquare(endPos).getPiece().isWhite()  && !(whiteTurn)) {
+                        if (b.getSquare(endPos).getPiece().isWhite() && !(whiteTurn)) {
                             whiteCap = true;
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             blackCap = true;
@@ -262,47 +250,84 @@ public class NewGameActivity extends AppCompatActivity {
                         refresh(b);
                     }
 
+                    String type = b.getSquare(startPos).getPieceType();
+                    Log.i("Position + Type", "End:" + endPos + "---" + type);
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
 
 
-                    if (b.getSquare(endPos).getPieceType().equals("p")) {
-                        if (b.getSquare(endPos).getPiece().getPas() != null) {
-                            passantdraw = true;
-                            passantLocation = b.getSquare(endPos).getPiece().getPas();
-                            b.getSquare(endPos).getPiece().setPas();
-                        } else if (PassantTrack == null) {
-                            PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
-                        } else {
+                    // TODO: Watch Out for later bugs
+                    if (type != null && type.equals("p") && (endPos.charAt(1) == '8' || endPos.charAt(1) == '1')) {
+                        if (b.getSquare(endPos).getPieceType().equals("p")) {
+                            if (b.getSquare(endPos).getPiece().getPas() != null) {
+                                passantdraw = true;
+                                passantLocation = b.getSquare(endPos).getPiece().getPas();
+                                b.getSquare(endPos).getPiece().setPas();
+                            } else if (PassantTrack == null) {
+                                PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
+                            } else {
+                                PassantTrack.setEnpassant();
+                                PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
+                            }
+                        } else if (PassantTrack != null && !(b.getSquare(endPos).getPieceType().equals("p"))) {
                             PassantTrack.setEnpassant();
-                            PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
+                            PassantTrack = null;
                         }
-                    } else if (PassantTrack != null && !(b.getSquare(endPos).getPieceType().equals("p"))) {
-                        PassantTrack.setEnpassant();
-                        PassantTrack = null;
-                    }
-                    System.out.println();
-                    b.printBoard();
-                    if (whiteCap) {
-                        finishGame(true);
-                    } else if (blackCap) {
-                        finishGame(false);
-                    }
+                        if (whiteCap) {
+                            finishGame(true);
+                            return;
+                        } else if (blackCap) {
+                            finishGame(false);
+                            return;
+                        }
 
-                    if (whiteKing.getPiece().inCheck(b)) {
-                        makeToast("white player in check.");
-                    } else if (blackKing.getPiece().inCheck(b)) {
-                        makeToast("black player in check.");
+                        int ID = NewGameActivity.getResId(endPos, R.id.class);
+                        changedImage = (ImageView) findViewById(ID);
+                        promotion();
+
+                    } else {
+
+                        if (b.getSquare(endPos).getPieceType().equals("p")) {
+                            if (b.getSquare(endPos).getPiece().getPas() != null) {
+                                passantdraw = true;
+                                passantLocation = b.getSquare(endPos).getPiece().getPas();
+                                b.getSquare(endPos).getPiece().setPas();
+                            } else if (PassantTrack == null) {
+                                PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
+                            } else {
+                                PassantTrack.setEnpassant();
+                                PassantTrack = (Pawn) b.getSquare(endPos).getPiece();
+                            }
+                        } else if (PassantTrack != null && !(b.getSquare(endPos).getPieceType().equals("p"))) {
+                            PassantTrack.setEnpassant();
+                            PassantTrack = null;
+                        }
+                        System.out.println();
+                        b.printBoard();
+                        if (whiteCap) {
+                            finishGame(true);
+                            return;
+                        } else if (blackCap) {
+                            finishGame(false);
+                            return;
+                        }
+
+                        if (whiteKing.getPiece().inCheck(b)) {
+                            makeToast("white player in check.");
+                        } else if (blackKing.getPiece().inCheck(b)) {
+                            makeToast("black player in check.");
+                        }
+
+                        if (whiteKing.getPiece().checkMate(b)) {
+                            makeToast("Black wins");
+                            finishGame(true);
+                            return;
+                        } else if (blackKing.getPiece().checkMate(b)) {
+                            makeToast("White wins");
+                            finishGame(false);
+                            return;
+                        }
                     }
                     whiteTurn = !whiteTurn;
-
-                    if (whiteKing.getPiece().checkMate(b)) {
-                        makeToast("Black wins");
-                        finishGame(true);
-                    } else if (blackKing.getPiece().checkMate(b)) {
-                        makeToast("White wins");
-                        finishGame(false);
-
-                    }
 
                     if (validMove = true) {
                         return;
@@ -323,7 +348,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    private void finishGame(boolean blackWins) {
+    public void finishGame(boolean blackWins) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
         startActivity(intent);
@@ -331,32 +356,25 @@ public class NewGameActivity extends AppCompatActivity {
         //finish();
     }
 
-    private void refresh(Board board){
+    private void refresh(Board board) {
         Square[][] s = board.getBoard();
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 Square temp = s[i][j];
-                if(temp.getPieceType() == null || temp.getPieceType().length() == 0){
-                    char file = 'a';
-                    file += j;
-                    int rank = 8 - i;
-                    String id = file + "" + rank;
-                    int ID = getResId(id, R.id.class);
-                    Log.i("Position:", ""+file+rank);
-                    ImageView img = (ImageView)findViewById(ID);
-                    img.setImageResource(android.R.color.transparent);
-                }
-                else if(temp.getPieceType().equals("R")){
-                    char file = 'a';
-                    file += j;
-                    int rank = 8 - i;
-                    String id = file + "" + rank;
+                char file = 'a';
+                file += j;
+                int rank = 8 - i;
+                String id = file + "" + rank;
+                int ID = getResId(id, R.id.class);
+                Log.i("Position:", "" + file + rank);
+                ImageView img = (ImageView) findViewById(ID);
 
-                    int ID = getResId(id, R.id.class);
-                    ImageView img = (ImageView)findViewById(ID);
-                    if(temp.getPiece().isWhite()){
+                if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
+                    img.setImageResource(android.R.color.transparent);
+                } else if (temp.getPieceType().equals("R")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whiterook);
-                    }else{
+                    } else {
                         img.setImageResource(R.drawable.blackrook);
                     }
                 }
@@ -364,7 +382,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    private static int getResId(String resName, Class<?> c) {
+    public static int getResId(String resName, Class<?> c) {
         try {
             Field idField = c.getDeclaredField(resName);
             return idField.getInt(idField);
@@ -374,8 +392,14 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    private void promotion(){
+    private void promotion() {
         Promotion p = new Promotion();
-        p.show(getFragmentManager(),"Promotion");
+        p.show(getFragmentManager(), "Promotion");
+        Context context = getApplicationContext();
+        CharSequence text = "Please make a choice or this pawn will be promote to a Queen.";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
