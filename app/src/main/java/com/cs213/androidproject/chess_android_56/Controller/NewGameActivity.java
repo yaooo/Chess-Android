@@ -89,7 +89,7 @@ public class NewGameActivity extends AppCompatActivity {
                 }
                 undoPromotion=false;
             }
-            if(undoPassant){
+            else if(undoPassant){
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = starting.getDrawable();
@@ -179,7 +179,8 @@ public class NewGameActivity extends AppCompatActivity {
                 ending.setImageDrawable(draw);
             }
 
-            if(b.getSquare(psp).getPieceType().equals("p")){
+
+            if(!(b.getSquare(psp).getPiece()==null) && b.getSquare(psp).getPieceType().equals("p")){
                 b.getSquare(psp).getPiece().hasMoved=false;
             }
             whiteTurn = !whiteTurn;
