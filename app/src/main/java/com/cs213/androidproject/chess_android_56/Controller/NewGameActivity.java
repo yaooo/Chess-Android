@@ -42,6 +42,8 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean whiteCap = false;
     private boolean validMove = false;
     private boolean passantdraw = false;
+    private boolean undoPassant=false;
+    private String prevPassant="";
     private boolean undid=false;
     private static boolean draw = false;
     private String passantLocation;
@@ -67,10 +69,31 @@ public class NewGameActivity extends AppCompatActivity {
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
         if(undid==false){
-            if(b.getSquare(pep).getPiece().getType().equals("p")){
-                b.getSquare(pep).getPiece().hasMoved=false;
+
+            if(undoPassant){
+                ImageView starting = (ImageView) findViewById(pend);
+                ImageView ending = (ImageView) findViewById(pstart);
+                Drawable draw = starting.getDrawable();
+                starting.setImageResource(android.R.color.transparent); // make it transparent
+                ending.setImageDrawable(draw);
+                b.getSquare(pep).getPiece().move(pep,psp,b);
+                Resources res = getResources();
+                System.out.println(prevPassant);
+                int id2 = res.getIdentifier(prevPassant, "id", NewGameActivity.this.getPackageName());
+                ImageView op = (ImageView) findViewById(id2);
+                if(b.getSquare(psp).getPieceColor().equals("w")) {
+                    Pawn temp = new Pawn("black");
+                    b.getSquare(pep).setPiece(temp);
+                    op.setImageResource(R.drawable.blackpawn);
+                }
+                else{
+                    Pawn temp = new Pawn("white");
+                    b.getSquare(pep).setPiece(temp);
+                    op.setImageResource(R.drawable.whitepawn);
+                }
+                undoPassant=false;
             }
-            if(pieceSig.equals("")){
+            else if(pieceSig.equals("")){
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = starting.getDrawable();
@@ -135,6 +158,10 @@ public class NewGameActivity extends AppCompatActivity {
                 b.getSquare(pep).getPiece().move(pep,psp,b);
                 b.getSquare(pep).setPiece(temp);
                 ending.setImageDrawable(draw);
+            }
+
+            if(b.getSquare(psp).getPieceType().equals("p")){
+                b.getSquare(psp).getPiece().hasMoved=false;
             }
             whiteTurn = !whiteTurn;
             gameLog = gameLog.substring(gameLog.length() - 6);
@@ -244,7 +271,9 @@ public class NewGameActivity extends AppCompatActivity {
                     ImageView op = (ImageView) findViewById(id2);
                     op.setImageResource(android.R.color.transparent);
                     passantdraw = false;
+                    prevPassant=passantLocation;
                     passantLocation = "";
+                    undoPassant=true;
                    // refresh(b);
                 }
                 if ((startPos.equals("e1")) || startPos.equals("e8")) {
