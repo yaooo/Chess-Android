@@ -42,18 +42,22 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean whiteCap = false;
     private boolean validMove = false;
     private boolean passantdraw = false;
+    private boolean undid=false;
     private static boolean draw = false;
     private String passantLocation;
     private String gameLog = "";
     public static String promoteTo = "Q";
     public static ImageView changedImage;
+    public Board prevBoard=new Board();
+    private Piece caped ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
-
         b.initBoard();
+        prevBoard.initBoard();
+
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
     }
@@ -61,14 +65,75 @@ public class NewGameActivity extends AppCompatActivity {
 
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
-        b.getSquare(pep).getPiece().move(pep, psp, b);
-        ImageView starting = (ImageView) findViewById(pend);
-        ImageView ending = (ImageView) findViewById(pstart);
-        Drawable draw = starting.getDrawable();
-        starting.setImageResource(android.R.color.transparent); // make it transparent
-        ending.setImageDrawable(draw);
-        whiteTurn = !whiteTurn;
-        gameLog = gameLog.substring(gameLog.length() - 6);
+        if(undid==false){
+            if(caped==null){
+                ImageView starting = (ImageView) findViewById(pend);
+                ImageView ending = (ImageView) findViewById(pstart);
+                Drawable draw = starting.getDrawable();
+                starting.setImageResource(android.R.color.transparent); // make it transparent
+                ending.setImageDrawable(draw);
+                b.getSquare(pep).getPiece().move(pep,psp,b);
+            }
+            else {
+                ImageView img = (ImageView) findViewById(pend);
+                ImageView ending = (ImageView) findViewById(pstart);
+                Drawable draw = img.getDrawable();
+                if (caped.getType().equals("rook")) {
+                    if (caped.isWhite()) {
+                        img.setImageResource(R.drawable.whiterook);
+                    } else {
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                }
+                else if(caped.equals("N")){
+                    if(caped.isWhite()){
+                        img.setImageResource(R.drawable.whiteknight);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackknight);
+                    }
+                }
+                else if(caped.equals("R")){
+                    if(caped.isWhite()){
+                        img.setImageResource(R.drawable.whiterook);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                }
+                else if(caped.equals("B")){
+                    if(caped.isWhite()){
+                        img.setImageResource(R.drawable.whitebishop);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackbishop);
+                    }
+                }
+                else if(caped.equals("Q")){
+                    if(caped.isWhite()){
+                        img.setImageResource(R.drawable.whitequeen);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackqueen);
+                    }
+                }
+                else if(caped.equals("p")){
+                    if(caped.isWhite()){
+                        img.setImageResource(R.drawable.whitepawn);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackpawn);
+                    }
+                }
+                b.getSquare(pep).getPiece().move(pep,psp,b);
+                b.getSquare(pep).setPiece(caped);
+                ending.setImageDrawable(draw);
+            }
+            whiteTurn = !whiteTurn;
+            gameLog = gameLog.substring(gameLog.length() - 6);
+            undid=true;
+        }
+
     }
 
     public void drawButton(View v) {
@@ -173,17 +238,18 @@ public class NewGameActivity extends AppCompatActivity {
                     op.setImageResource(android.R.color.transparent);
                     passantdraw = false;
                     passantLocation = "";
-                    refresh(b);
+                   // refresh(b);
                 }
                 if ((startPos.equals("e1")) || startPos.equals("e8")) {
-                    refresh(b);
+                   // refresh(b);
                 }
-
+                
                 pstart = start;
                 pend = end;
                 psp = startPos;
                 pep = endPos;
                 gameLog += psp + "," + pep + "|";
+
                 System.out.println(gameLog);
             } else {
             }
@@ -210,7 +276,6 @@ public class NewGameActivity extends AppCompatActivity {
         if (startPos.length() == 2 && endPos.length() == 2) {
 
             validMove = false;
-
             Pawn PassantTrack = null;
             while (!(whiteKing.getPiece().checkMate(b)) && !(blackKing.getPiece().checkMate(b))) {
                 if (b.getSquare(startPos).getPiece() == null) {
@@ -223,7 +288,7 @@ public class NewGameActivity extends AppCompatActivity {
                         return;
                     }
                 } else if (b.getSquare(startPos).getPieceColor().equals("b") && whiteTurn) {
-                    makeToast("invalid move fow white player, select your own piece");
+                    makeToast("invalid move for white player, select your own piece");
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPieceColor().equals("w") && whiteTurn == false) {
@@ -238,7 +303,7 @@ public class NewGameActivity extends AppCompatActivity {
                         } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         }
-                        refresh(b);
+                        //refresh(b);
 
                     } else if (b.getSquare(endPos).getPiece() != null && b.getSquare(endPos).getPieceType().equals("K")) {
 
@@ -247,14 +312,24 @@ public class NewGameActivity extends AppCompatActivity {
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             blackCap = true;
                         }
-                        refresh(b);
+                        //refresh(b);
                     }
+
+                    if(b.getSquare(endPos).getPiece()!=null){
+                        caped=b.getSquare(endPos).getPiece();
+                    }
+                    else if(b.getSquare(endPos).getPiece()==null){
+                        caped=null;
+                    }
+
 
                     String type = b.getSquare(startPos).getPieceType();
                     Log.i("Position + Type", "End:" + endPos + "---" + type);
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
-
-
+                    if(undid==true){
+                        undid=false;
+                    }
+                    prevBoard.printBoard();
                     // TODO: Watch Out for later bugs
                     if (type != null && type.equals("p") && (endPos.charAt(1) == '8' || endPos.charAt(1) == '1')) {
                         if (b.getSquare(endPos).getPieceType().equals("p")) {
@@ -362,7 +437,8 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     private void refresh(Board board) {
-        Square[][] s = board.getBoard();
+        Square[][] s = prevBoard.getBoard();
+        prevBoard.printBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Square temp = s[i][j];
@@ -376,11 +452,52 @@ public class NewGameActivity extends AppCompatActivity {
 
                 if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
                     img.setImageResource(android.R.color.transparent);
-                } else if (temp.getPieceType().equals("R")) {
+                }
+                else if (temp.getPieceType().equals("R")) {
                     if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whiterook);
                     } else {
                         img.setImageResource(R.drawable.blackrook);
+                    }
+                }
+                else if(temp.getPieceType().equals("N")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whiteknight);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackknight);
+                    }
+                }
+                else if(temp.getPieceType().equals("R")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whiterook);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                }
+                else if(temp.getPieceType().equals("B")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whitebishop);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackbishop);
+                    }
+                }
+                else if(temp.getPieceType().equals("Q")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whitequeen);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackqueen);
+                    }
+                }
+                else if(temp.getPieceType().equals("p")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whitepawn);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackpawn);
                     }
                 }
             }

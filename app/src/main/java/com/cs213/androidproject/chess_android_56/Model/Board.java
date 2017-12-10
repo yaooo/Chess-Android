@@ -305,4 +305,6 @@ public class Board {
 		}
 		return q;
 	}
+
+
 }

@@ -69,9 +69,8 @@ public class EndGame extends AppCompatActivity {
                         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
                         String df=sdf.format(d);
                         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("gameHistory.txt", Context.MODE_APPEND));
-                        log += df+"|";
-                        log+=m_Text+"|" ;
-                        log+="+++|";
+                        log=m_Text+"+"+df+"~"+log;
+                        log+=":|";
                         outputStreamWriter.write(log);
                         outputStreamWriter.close();
                         makeToast("game saved");
