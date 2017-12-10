@@ -50,6 +50,7 @@ public class NewGameActivity extends AppCompatActivity {
     public static ImageView changedImage;
     public Board prevBoard=new Board();
     private Piece caped ;
+    String pieceSig="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,10 @@ public class NewGameActivity extends AppCompatActivity {
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
         if(undid==false){
-            if(caped==null){
+            if(b.getSquare(pep).getPiece().getType().equals("p")){
+                b.getSquare(pep).getPiece().hasMoved=false;
+            }
+            if(pieceSig.equals("")){
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = starting.getDrawable();
@@ -78,55 +82,58 @@ public class NewGameActivity extends AppCompatActivity {
                 ImageView img = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = img.getDrawable();
-                if (caped.getType().equals("rook")) {
-                    if (caped.isWhite()) {
+                Piece temp=null;
+                if (pieceSig.charAt(1)=='R') {
+                    if (pieceSig.charAt(0)=='w') {
                         img.setImageResource(R.drawable.whiterook);
+                        temp=new Rook("white");
                     } else {
                         img.setImageResource(R.drawable.blackrook);
+                        temp=new Rook("black");
                     }
                 }
-                else if(caped.equals("N")){
-                    if(caped.isWhite()){
+                else if(pieceSig.charAt(1)=='N'){
+                    if(pieceSig.charAt(0)=='w'){
                         img.setImageResource(R.drawable.whiteknight);
+                        temp=new Knight("white");
                     }
                     else{
                         img.setImageResource(R.drawable.blackknight);
+                        temp=new Knight("black");
                     }
                 }
-                else if(caped.equals("R")){
-                    if(caped.isWhite()){
-                        img.setImageResource(R.drawable.whiterook);
-                    }
-                    else{
-                        img.setImageResource(R.drawable.blackrook);
-                    }
-                }
-                else if(caped.equals("B")){
-                    if(caped.isWhite()){
+                else if(pieceSig.charAt(1)=='B'){
+                    if(pieceSig.charAt(0)=='w'){
                         img.setImageResource(R.drawable.whitebishop);
+                        temp=new Bishop("white");
                     }
                     else{
                         img.setImageResource(R.drawable.blackbishop);
+                        temp=new Bishop("black");
                     }
                 }
-                else if(caped.equals("Q")){
-                    if(caped.isWhite()){
+                else if(pieceSig.charAt(1)=='Q'){
+                    if(pieceSig.charAt(0)=='w'){
                         img.setImageResource(R.drawable.whitequeen);
+                        temp=new Queen("white");
                     }
                     else{
                         img.setImageResource(R.drawable.blackqueen);
+                        temp=new Queen("black");
                     }
                 }
-                else if(caped.equals("p")){
-                    if(caped.isWhite()){
+                else if(pieceSig.charAt(1)=='p'){
+                    if(pieceSig.charAt(0)=='w'){
                         img.setImageResource(R.drawable.whitepawn);
+                        temp=new Pawn("white");
                     }
                     else{
                         img.setImageResource(R.drawable.blackpawn);
+                        temp=new Pawn("black");
                     }
                 }
                 b.getSquare(pep).getPiece().move(pep,psp,b);
-                b.getSquare(pep).setPiece(caped);
+                b.getSquare(pep).setPiece(temp);
                 ending.setImageDrawable(draw);
             }
             whiteTurn = !whiteTurn;
@@ -243,7 +250,7 @@ public class NewGameActivity extends AppCompatActivity {
                 if ((startPos.equals("e1")) || startPos.equals("e8")) {
                    // refresh(b);
                 }
-                
+
                 pstart = start;
                 pend = end;
                 psp = startPos;
@@ -317,9 +324,11 @@ public class NewGameActivity extends AppCompatActivity {
 
                     if(b.getSquare(endPos).getPiece()!=null){
                         caped=b.getSquare(endPos).getPiece();
+                        pieceSig=b.getSquare(endPos).toString();
                     }
                     else if(b.getSquare(endPos).getPiece()==null){
                         caped=null;
+                        pieceSig="";
                     }
 
 

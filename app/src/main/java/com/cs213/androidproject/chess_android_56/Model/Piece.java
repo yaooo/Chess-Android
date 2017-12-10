@@ -18,7 +18,7 @@ public abstract class Piece implements Cloneable {
     /**
      * boolean that indicates if the piece has moved
      */
-    boolean hasMoved;
+    public boolean hasMoved;
 
     /**
      * The piece
