@@ -495,7 +495,7 @@ public class NewGameActivity extends AppCompatActivity {
         //TODO: Uncomment it later, keep it for testing purpose
         //finish();
     }
-    //sam was here
+
     private void refresh(Board board) {
         Square[][] s = prevBoard.getBoard();
         prevBoard.printBoard();
@@ -609,6 +609,8 @@ public class NewGameActivity extends AppCompatActivity {
                     }else if (!temp.getPieceColor().equals("w")){
                         continue;
                     }else{
+                        Log.i("The starting:", id);
+
                         pair = possibleEndPos(id);
                         if(pair != null){
                             break;
@@ -664,8 +666,18 @@ public class NewGameActivity extends AppCompatActivity {
                 int rank = 8 - i;
                 String id = file + "" + rank;
 
-                if(temp.getPiece().isValidMove(start, id, b)){
+                if (temp == null || temp.getPiece() == null)
+                    continue;
+
+//                Log.i("TYPE: ", " "+i+" "+j + temp.getPiece().getType() + " " + id);
+
+                //TODO: BUG
+                if(b.getSquare(start).getPiece().isValidMove(start, id, b)){
+
                     pair[1] = id;
+                    Log.i("AI: Possible move is ", pair[0] + pair[1]);
+
+                    b.printBoard();
                     return pair;
                 }
             }
