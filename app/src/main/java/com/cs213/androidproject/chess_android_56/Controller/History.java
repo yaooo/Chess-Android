@@ -18,6 +18,9 @@ import java.io.BufferedReader;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.content.Context;
+import java.util.Collections;
+import android.view.View;
+
 
 import com.cs213.androidproject.chess_android_56.R;
 
@@ -27,6 +30,7 @@ public class History extends AppCompatActivity {
     private ArrayAdapter<String> listAdapter ;
     private ArrayList<String> gameTitles;
     private ArrayList<String> gameDates;
+    private ArrayList<String> gameDisplay;
     String ret;
 
     @Override
@@ -37,6 +41,8 @@ public class History extends AppCompatActivity {
         listAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1);
         historyListView.setAdapter(listAdapter);
         gameTitles=new ArrayList<String>();
+        gameDates=new ArrayList<String>();
+        gameDisplay=new ArrayList<String>();
         Context context=this.getApplicationContext();
 
         try{
@@ -62,7 +68,12 @@ public class History extends AppCompatActivity {
         }
         gameTitles=getTitles();
         gameDates=getDates();
-        listAdapter.addAll(gameDates);
+        for(int i=0;i<gameTitles.size();i++){
+            gameTitles.get(i).trim();
+            System.out.println(gameTitles.get(i));
+            gameDisplay.add(gameTitles.get(i)+ "," +gameDates.get(i));
+        }
+        listAdapter.addAll(gameDisplay);
 
     }
 
@@ -119,6 +130,93 @@ public class History extends AppCompatActivity {
             }
 
             return g;
+
+        }
+
+        public void sortByDate(View v){
+            for(int i=0;i<gameDates.size();i++){
+                if(i==gameDates.size()-1){
+                    break;
+                }
+                String m="";
+                String d="";
+                m+=gameDates.get(i).charAt(5);
+                m+=gameDates.get(i).charAt(6);
+                d+=gameDates.get(i).charAt(7);
+                d+=gameDates.get(i).charAt(8);
+                int mi=Integer.parseInt(m);
+                int di=Integer.parseInt(d);
+                String m2="";
+                String d2="";
+                m2+=gameDates.get(i+1).charAt(5);
+                m2+=gameDates.get(i+1).charAt(6);
+                d2+=gameDates.get(i+1).charAt(7);
+                d2+=gameDates.get(i+1).charAt(8);
+                int mi2=Integer.parseInt(m);
+                int di2=Integer.parseInt(d);
+
+                if(mi>mi2){
+                    Collections.swap(gameDates, i,i+1);
+                    Collections.swap(gameTitles,i,i+1);
+                    i=0;
+                }
+                else if(mi<mi2){
+
+
+                }
+                else if(mi==mi2){
+                    if(di>di2){
+                        Collections.swap(gameDates, i,i+1);
+                        Collections.swap(gameTitles,i,i+1);
+                        i=0;
+                    }
+                    else if (di<di2){
+
+                    }
+                    else{
+
+                    }
+
+                }
+            }
+            for(int i=0;i<gameTitles.size();i++){
+                gameDisplay.add(gameTitles.get(i)+ "," +gameDates.get(i));
+            }
+            listAdapter.addAll(gameDisplay);
+
+        }
+
+
+        public void sortByTitle(View v){
+            System.out.println("hello");
+            for(int i=0;i<gameTitles.size();i++){
+                if(i==gameTitles.size()-1){
+                    break;
+                }
+                if(gameTitles.get(i).compareToIgnoreCase(gameTitles.get(i+1))>0){
+                    System.out.println("check");
+                    System.out.println("switching:"+gameTitles.get(i)+" and "+gameTitles.get(i+1));
+                    Collections.swap(gameDates, i,i+1);
+                    Collections.swap(gameTitles,i,i+1);
+                    i=0;
+                }
+            }
+            if(gameTitles.get(0).compareToIgnoreCase(gameTitles.get(1))>0){
+                System.out.println("check");
+                System.out.println("switching:"+gameTitles.get(0)+" and "+gameTitles.get(1));
+                Collections.swap(gameDates, 0,1);
+                Collections.swap(gameTitles,0,1);
+                
+            }
+
+            for(int i=0;i<gameTitles.size();i++){
+                gameDisplay.add(gameTitles.get(i)+ "," +gameDates.get(i));
+            }
+            listAdapter.clear();
+            listAdapter.addAll(gameDisplay);
+
+
+
 
         }
 }
