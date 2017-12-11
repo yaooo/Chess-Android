@@ -670,6 +670,7 @@ public class NewGameActivity extends AppCompatActivity {
                 }
             }
         }
+
         return null;
     }
 }

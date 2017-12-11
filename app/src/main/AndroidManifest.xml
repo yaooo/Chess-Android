@@ -31,5 +31,9 @@
         <activity
             android:name=".Controller.EndGame"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Controller.Replay"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 </manifest>
