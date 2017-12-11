@@ -13,6 +13,8 @@ import android.content.DialogInterface;
 import android.widget.EditText;
 import android.text.InputType;
 import com.cs213.androidproject.chess_android_56.R;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -49,7 +51,7 @@ public class EndGame extends AppCompatActivity {
 
     public void saveGame(View v) throws IOException{
         if(!(gameSaved)){
-
+            final ArrayList<String> titles=getTitles();
             final Context context= getApplication().getApplicationContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Title");
@@ -60,11 +62,21 @@ public class EndGame extends AppCompatActivity {
             builder.setView(input);
 
 
+
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     m_Text = input.getText().toString();
+
                     try {
+                        if(m_Text.length()<3){
+                            makeToast("please enter a title with more than 3 characters");
+                            return ;
+                        }
+                        else if(titles.contains(m_Text)){
+                            makeToast("title name taken please enter another title name");
+                            return;
+                        }
                         Date d = Calendar.getInstance().getTime();
                         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
                         String df=sdf.format(d);
@@ -109,4 +121,56 @@ public class EndGame extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+    public ArrayList<String> getTitles(){
+        Context context = this.getApplicationContext();
+        String ret="";
+        try {
+
+            InputStream inputStream = context.openFileInput("gameHistory.txt");
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+                System.out.println(ret);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> g=new ArrayList<String>();
+        String current="";
+        boolean title=true;
+        for(int i=0;i< ret.length();i++){
+            char a = ret.charAt(i);
+            if(a=='+' && title==true){
+                title=false;
+                g.add(current);
+                current="";
+            }
+            else if(a==':' && title==false){
+                i=i+2;
+                if(i>=ret.length()){
+                    break;
+                }
+                title=true;
+                a = ret.charAt(i);
+            }
+
+            if(title==true) {
+                current += a;
+            }
+        }
+
+        return g;
+    }
+
+
 }
