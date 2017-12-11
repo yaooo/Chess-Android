@@ -133,27 +133,28 @@ public class History extends AppCompatActivity {
 
         }
 
-        public void sortByDate(View v){
-            for(int i=0;i<gameDates.size();i++){
-                if(i==gameDates.size()-1){
+        public void sortByDate(View v) {
+            for (int i = 0; i < gameDates.size(); i++) {
+                if (i == gameDates.size() - 1) {
                     break;
                 }
-                String m="";
-                String d="";
-                m+=gameDates.get(i).charAt(5);
-                m+=gameDates.get(i).charAt(6);
-                d+=gameDates.get(i).charAt(7);
-                d+=gameDates.get(i).charAt(8);
-                int mi=Integer.parseInt(m);
-                int di=Integer.parseInt(d);
-                String m2="";
-                String d2="";
-                m2+=gameDates.get(i+1).charAt(5);
-                m2+=gameDates.get(i+1).charAt(6);
-                d2+=gameDates.get(i+1).charAt(7);
-                d2+=gameDates.get(i+1).charAt(8);
-                int mi2=Integer.parseInt(m);
-                int di2=Integer.parseInt(d);
+                String m = "";
+                String d = "";
+                m += gameDates.get(i).charAt(5);
+                m += gameDates.get(i).charAt(6);
+                d += gameDates.get(i).charAt(8);
+                d += gameDates.get(i).charAt(9);
+                int mi = Integer.parseInt(m);
+                int di = Integer.parseInt(d);
+                String m2 = "";
+                String d2 = "";
+                m2 += gameDates.get(i + 1).charAt(5);
+                m2 += gameDates.get(i + 1).charAt(6);
+                d2 += gameDates.get(i + 1).charAt(8);
+                d2 += gameDates.get(i + 1).charAt(9);
+                int mi2 = Integer.parseInt(m);
+                int di2 = Integer.parseInt(d);
+                System.out.println(gameDates.get(i));
 
                 if(mi>mi2){
                     Collections.swap(gameDates, i,i+1);
@@ -161,8 +162,6 @@ public class History extends AppCompatActivity {
                     i=0;
                 }
                 else if(mi<mi2){
-
-
                 }
                 else if(mi==mi2){
                     if(di>di2){
@@ -171,7 +170,6 @@ public class History extends AppCompatActivity {
                         i=0;
                     }
                     else if (di<di2){
-
                     }
                     else{
 
@@ -179,17 +177,27 @@ public class History extends AppCompatActivity {
 
                 }
             }
+            gameDisplay.clear();
             for(int i=0;i<gameTitles.size();i++){
                 gameDisplay.add(gameTitles.get(i)+ "," +gameDates.get(i));
+                System.out.println(gameDates.get(i));
             }
+            listAdapter.clear();
             listAdapter.addAll(gameDisplay);
-
+            listAdapter.notifyDataSetChanged();
         }
 
 
+
+
         public void sortByTitle(View v){
-            System.out.println("hello");
+            boolean seti=false;
+            System.out.println(gameTitles.size());
             for(int i=0;i<gameTitles.size();i++){
+                if(seti==true){
+                    i=0;
+                    seti=false;
+                }
                 if(i==gameTitles.size()-1){
                     break;
                 }
@@ -198,22 +206,25 @@ public class History extends AppCompatActivity {
                     System.out.println("switching:"+gameTitles.get(i)+" and "+gameTitles.get(i+1));
                     Collections.swap(gameDates, i,i+1);
                     Collections.swap(gameTitles,i,i+1);
-                    i=0;
+                    seti=true;
                 }
             }
-            if(gameTitles.get(0).compareToIgnoreCase(gameTitles.get(1))>0){
-                System.out.println("check");
-                System.out.println("switching:"+gameTitles.get(0)+" and "+gameTitles.get(1));
-                Collections.swap(gameDates, 0,1);
-                Collections.swap(gameTitles,0,1);
-                
-            }
 
+//            if(gameTitles.get(0).compareToIgnoreCase(gameTitles.get(1))>0){
+//                System.out.println("check");
+//                System.out.println("switching:"+gameTitles.get(0)+" and "+gameTitles.get(1));
+//                Collections.swap(gameDates, 0,1);
+//                Collections.swap(gameTitles,0,1);
+//
+//            }
+            gameDisplay.clear();
             for(int i=0;i<gameTitles.size();i++){
                 gameDisplay.add(gameTitles.get(i)+ "," +gameDates.get(i));
             }
             listAdapter.clear();
             listAdapter.addAll(gameDisplay);
+            listAdapter.notifyDataSetChanged();
+
 
 
 
