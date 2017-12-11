@@ -46,6 +46,7 @@
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/undo"
             android:background="@color/Wheat"
+            android:onClick="AIButton"
             android:text="@string/ai" />
 
         <Button

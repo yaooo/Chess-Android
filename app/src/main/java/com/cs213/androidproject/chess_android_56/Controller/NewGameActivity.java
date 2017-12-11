@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -494,7 +495,7 @@ public class NewGameActivity extends AppCompatActivity {
         //TODO: Uncomment it later, keep it for testing purpose
         //finish();
     }
-
+    //sam was here
     private void refresh(Board board) {
         Square[][] s = prevBoard.getBoard();
         prevBoard.printBoard();
@@ -582,5 +583,93 @@ public class NewGameActivity extends AppCompatActivity {
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    public void AIButton(View v) {
+        Square[][] s = b.getBoard();
+        String[] pair = null;
+
+        if (whiteTurn){
+            for (int i = 0; i < 8; i++) {
+                if(pair != null) {
+
+                    //TODO: make moves
+
+                    return;
+                }
+                for (int j = 0; j < 8; j++) {
+                    Square temp = s[i][j];
+                    char file = 'a';
+                    file += j;
+                    int rank = 8 - i;
+                    String id = file + "" + rank;
+
+                    if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
+                       continue;
+                    }else if (!temp.getPieceColor().equals("w")){
+                        continue;
+                    }else{
+                        pair = possibleEndPos(id);
+                        if(pair != null){
+                            break;
+                        }
+                    }
+                }
+            }
+        }else{
+            for (int i = 0; i < 8; i++) {
+                if(pair != null) {
+
+                    //TODO: make moves
+
+                    return;
+                }
+                for (int j = 0; j < 8; j++) {
+                    Square temp = s[i][j];
+                    char file = 'a';
+                    file += j;
+                    int rank = 8 - i;
+                    String id = file + "" + rank;
+
+                    if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
+                        continue;
+                    }else if (!temp.getPieceColor().equals("b")){
+                        continue;
+                    }else{
+                        pair = possibleEndPos(id);
+                        if(pair != null){
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Return a pair of location, {start, end}
+     * @param start where the piece starts moving
+     * @return null if cannot find any valid move, else return the pair
+     */
+    @Nullable
+    private String[] possibleEndPos(String start){
+        Square[][] s = b.getBoard();
+        String[] pair = new String[2];
+        pair[0] = start;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Square temp = s[i][j];
+                char file = 'a';
+                file += j;
+                int rank = 8 - i;
+                String id = file + "" + rank;
+
+                if(temp.getPiece().isValidMove(start, id, b)){
+                    pair[1] = id;
+                    return pair;
+                }
+            }
+        }
+        return null;
     }
 }
