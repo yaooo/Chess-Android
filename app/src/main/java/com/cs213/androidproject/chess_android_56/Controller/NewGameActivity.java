@@ -434,6 +434,7 @@ public class NewGameActivity extends AppCompatActivity {
 
                         if (whiteKing.getPiece().inCheck(b)) {
                             makeToast("white player in check.");
+
                         } else if (blackKing.getPiece().inCheck(b)) {
                             makeToast("black player in check.");
                         }
@@ -475,7 +476,7 @@ public class NewGameActivity extends AppCompatActivity {
         EndGame.log = log;
         startActivity(intent);
         //TODO: Uncomment it later, keep it for testing purpose
-        //finish();
+        finish();
     }
 
     private void refresh(Board board) {

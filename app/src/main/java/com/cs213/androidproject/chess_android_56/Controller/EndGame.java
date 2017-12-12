@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
 import android.text.InputType;
+
+import com.cs213.androidproject.chess_android_56.Model.Board;
+import com.cs213.androidproject.chess_android_56.Model.Square;
 import com.cs213.androidproject.chess_android_56.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +39,7 @@ public class EndGame extends AppCompatActivity {
         Button back = (Button) findViewById(R.id.goBack);
         TextView title = (TextView) findViewById(R.id.whoWins);
 
+        display();
         if (!blackWins) {
             title.setText(R.string.WhiteWins);
         }
@@ -76,6 +83,13 @@ public class EndGame extends AppCompatActivity {
                         else if(titles.contains(m_Text)){
                             makeToast("title name taken please enter another title name");
                             return;
+                        }else{
+                            Context context = getApplicationContext();
+                            CharSequence text = "Going back to Main Menu...";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                            launchNewActivity();
                         }
                         Date d = Calendar.getInstance().getTime();
                         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
@@ -170,6 +184,76 @@ public class EndGame extends AppCompatActivity {
         }
 
         return g;
+    }
+
+    private void display(){
+        Board b = NewGameActivity.b;
+        refresh(b);
+    }
+
+    private void refresh(Board board) {
+        Square[][] s = board.getBoard();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Square temp = s[i][j];
+                char file = 'a';
+                file += j;
+                int rank = 8 - i;
+                String id = file + "" + rank;
+                int ID = getResId(id, R.id.class);
+                Log.i("Position:", "" + file + rank);
+                ImageView img = (ImageView) findViewById(ID);
+
+                if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
+                    img.setImageResource(android.R.color.transparent);
+                } else if (temp.getPieceType().equals("R")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whiterook);
+                    } else {
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                } else if (temp.getPieceType().equals("N")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whiteknight);
+                    } else {
+                        img.setImageResource(R.drawable.blackknight);
+                    }
+                } else if (temp.getPieceType().equals("R")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whiterook);
+                    } else {
+                        img.setImageResource(R.drawable.blackrook);
+                    }
+                } else if (temp.getPieceType().equals("B")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whitebishop);
+                    } else {
+                        img.setImageResource(R.drawable.blackbishop);
+                    }
+                } else if (temp.getPieceType().equals("Q")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whitequeen);
+                    } else {
+                        img.setImageResource(R.drawable.blackqueen);
+                    }
+                } else if (temp.getPieceType().equals("p")) {
+                    if (temp.getPiece().isWhite()) {
+                        img.setImageResource(R.drawable.whitepawn);
+                    } else {
+                        img.setImageResource(R.drawable.blackpawn);
+                    }
+                }
+            }
+        }
+    }
+    public static int getResId(String resName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
 
