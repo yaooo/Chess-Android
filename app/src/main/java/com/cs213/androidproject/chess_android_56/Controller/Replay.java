@@ -38,12 +38,13 @@ public class Replay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_replay);
         System.out.println(gameName);
-        Context context=this.getApplicationContext();
         String ret="";
         String game = "";
         //ArrayList<String> moves=new ArrayList<>();
+        Context context = this.getApplicationContext();
         System.out.println(ia);
         try {
+
 
             InputStream inputStream = context.openFileInput("gameHistory.txt");
 
@@ -123,7 +124,7 @@ public class Replay extends AppCompatActivity {
                 int rank = 8 - i;
                 String id = file + "" + rank;
                 int ID = getResId(id, R.id.class);
-                Log.i("Position:", "" + file + rank);
+                //Log.i("Position:", "" + file + rank);
                 ImageView img = (ImageView) findViewById(ID);
 
                 if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
@@ -176,6 +177,14 @@ public class Replay extends AppCompatActivity {
                         img.setImageResource(R.drawable.blackpawn);
                     }
                 }
+                else if(temp.getPieceType().equals("K")){
+                    if(temp.getPiece().isWhite()){
+                        img.setImageResource(R.drawable.whiteking);
+                    }
+                    else{
+                        img.setImageResource(R.drawable.blackking);
+                    }
+                }
             }
         }
     }
@@ -191,9 +200,18 @@ public class Replay extends AppCompatActivity {
     }
 
     public void onClickNextButton(View v){
-        System.out.println(ia);
+        if(ia==moves.size()-1){
+            CharSequence text = "End of game";
+            int duration = Toast.LENGTH_SHORT;
+            Context context = this.getApplicationContext();
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         String parts[]=moves.get(ia).split(",");
         b.getSquare(parts[0]).getPiece().move(parts[0],parts[1],b);
+        b.printBoard();
         ia++;
         refresh(b);
     }

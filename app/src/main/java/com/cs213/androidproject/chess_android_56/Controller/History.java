@@ -26,6 +26,7 @@ import java.util.Collections;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.cs213.androidproject.chess_android_56.R;
@@ -73,6 +74,14 @@ public class History extends AppCompatActivity{
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if(ret.length()==0 || ret.equals("") || ret==null){
+            CharSequence text = "No games are saved yet!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         gameTitles = getTitles();
         gameDates = getDates();
