@@ -41,7 +41,7 @@ public class Queen extends Piece {
 	        	return true;
 	        }
         }
-        else if((b[dest_rank][dest_file].getPiece()==null || b[dest_rank][dest_file].getPieceColor().equals("w"))) {
+        else if(!this.isWhite() && (b[dest_rank][dest_file].getPiece()==null || b[dest_rank][dest_file].getPieceColor().equals("w"))) {
         	if(file_diff==0 && !(Movement.hasPiecesInBetween(start, input, board))) {
 	        	return true;
 	        }
@@ -64,9 +64,14 @@ public class Queen extends Piece {
      */
     @Override
     public void move(String start, String end, Board board) {
-    	this.moved();
-        board.getSquare(end).setPiece(this);
-        board.getSquare(start).setPiece(null);
+
+        if(isValidMove(start,end,board)){
+            this.moved();
+            board.getSquare(end).setPiece(this);
+            board.getSquare(start).setPiece(null);
+        }else{
+            System.out.println("Non-valid move");
+        }
     }
 
     /**

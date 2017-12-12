@@ -609,7 +609,7 @@ public class NewGameActivity extends AppCompatActivity {
                     }else if (!temp.getPieceColor().equals("w")){
                         continue;
                     }else{
-                        Log.i("The starting:", id);
+                        //Log.i("The starting:", id);
 
                         pair = possibleEndPos(id);
                         if(pair != null){
@@ -655,34 +655,20 @@ public class NewGameActivity extends AppCompatActivity {
      */
     @Nullable
     private String[] possibleEndPos(String start){
-        Square[][] s = b.getBoard();
         String[] pair = new String[2];
         pair[0] = start;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Square temp = s[i][j];
-                char file = 'a';
-                file += j;
-                int rank = 8 - i;
-                String id = file + "" + rank;
 
-                if (temp == null || temp.getPiece() == null)
-                    continue;
+        Square startPiece = b.getSquare(start);
+        String[] listOfPos = ListOfPos.getPos();
 
-//                Log.i("TYPE: ", " "+i+" "+j + temp.getPiece().getType() + " " + id);
-
-                //TODO: BUG
-                if(b.getSquare(start).getPiece().isValidMove(start, id, b)){
-
-                    pair[1] = id;
-                    Log.i("AI: Possible move is ", pair[0] + pair[1]);
-
-                    b.printBoard();
-                    return pair;
-                }
+        for(int i = 0; i < 64; i++){
+            if(startPiece.getPiece().isValidMove(start, listOfPos[i], b)) {
+                pair[1] = listOfPos[i];
+                b.printBoard();
+                Log.i("Position:", pair[0]+" "+pair[1]);
+                return pair;
             }
         }
-
         return null;
     }
 }
