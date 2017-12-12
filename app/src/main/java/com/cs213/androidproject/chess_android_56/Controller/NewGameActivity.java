@@ -407,11 +407,11 @@ public class NewGameActivity extends AppCompatActivity {
                             PassantTrack = null;
                         }
                         if (whiteCap) {
-                            gameLog+= startPos + endPos +'|';
+                            gameLog+= startPos +","+ endPos +'|';
                             finishGame(true,gameLog);
                             return;
                         } else if (blackCap) {
-                            gameLog+= startPos + endPos +'|';
+                            gameLog+= startPos +","+ endPos +'|';
                             finishGame(false,gameLog);
                             return;
                         }
@@ -441,11 +441,11 @@ public class NewGameActivity extends AppCompatActivity {
                         System.out.println();
                         b.printBoard();
                         if (whiteCap) {
-                            gameLog+= startPos + endPos +'|';
+                            gameLog+= startPos +","+ endPos +'|';
                             finishGame(true,gameLog);
                             return;
                         } else if (blackCap) {
-                            gameLog+= startPos + endPos +'|';
+                            gameLog+= startPos +","+ endPos +'|';
                             finishGame(false,gameLog);
                             return;
                         }
