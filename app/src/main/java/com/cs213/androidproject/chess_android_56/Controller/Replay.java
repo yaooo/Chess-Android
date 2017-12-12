@@ -41,7 +41,7 @@ public class Replay extends AppCompatActivity {
         Context context=this.getApplicationContext();
         String ret="";
         String game = "";
-        ArrayList<String> moves=new ArrayList<>();
+        //ArrayList<String> moves=new ArrayList<>();
         System.out.println(ia);
         try {
 
@@ -67,9 +67,7 @@ public class Replay extends AppCompatActivity {
         game=getGame(ret);
         moves=getMoves(game);
         b.initBoard();
-        for(int i=0;i<moves.size();i++){
-            System.out.println(moves.get(i));
-        }
+        System.out.println(moves.get(0));
 
     }
 
@@ -194,9 +192,8 @@ public class Replay extends AppCompatActivity {
 
     public void onClickNextButton(View v){
         System.out.println(ia);
-        String parts=moves.get(ia).substring(0,2);
-        String parts2=moves.get(ia).substring(4,5);
-        b.getSquare(parts).getPiece().move(parts,parts2,b);
+        String parts[]=moves.get(ia).split(",");
+        b.getSquare(parts[0]).getPiece().move(parts[0],parts[1],b);
         ia++;
         refresh(b);
     }
