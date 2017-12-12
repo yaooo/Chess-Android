@@ -580,6 +580,9 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     public void AIButton(View v) {
+
+        Log.i("ID", " "+ pstart +" "+pend);
+
         Square[][] s = b.getBoard();
         String[] pair = null;
 
@@ -590,6 +593,12 @@ public class NewGameActivity extends AppCompatActivity {
                     int start = getResId(pair[0], R.id.class);
                     int dest = getResId(pair[1], R.id.class);
 
+                    pstart = start;
+                    pend = dest;
+
+                    psp = pair[0];
+                    pep = pair[1];
+                    gameLog += psp + ',' + pep + '|';
                     ImageView img = (ImageView) findViewById(start);
                     ImageView img1 = (ImageView) findViewById(dest);
 
@@ -630,6 +639,11 @@ public class NewGameActivity extends AppCompatActivity {
                     int start = getResId(pair[0], R.id.class);
                     int dest = getResId(pair[1], R.id.class);
 
+                    pstart = start;
+                    pend = dest;
+                    psp = pair[0];
+                    pep = pair[1];
+                    gameLog += psp + ',' + pep + '|';
                     ImageView img = (ImageView) findViewById(start);
                     ImageView img1 = (ImageView) findViewById(dest);
 
