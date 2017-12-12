@@ -10,20 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
-
 import com.cs213.androidproject.chess_android_56.Model.*;
 import com.cs213.androidproject.chess_android_56.SubViews.*;
-
 import com.cs213.androidproject.chess_android_56.R;
-
 import java.lang.reflect.Field;
-
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -66,7 +60,6 @@ public class NewGameActivity extends AppCompatActivity {
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
     }
-
 
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
@@ -188,6 +181,7 @@ public class NewGameActivity extends AppCompatActivity {
             gameLog = gameLog.substring(gameLog.length() - 6);
             undid=true;
         }
+        refresh(b);
 
     }
 
@@ -295,10 +289,10 @@ public class NewGameActivity extends AppCompatActivity {
                     prevPassant=passantLocation;
                     passantLocation = "";
                     undoPassant=true;
-                   // refresh(b);
+                    refresh(b);
                 }
                 if ((startPos.equals("e1")) || startPos.equals("e8")) {
-                   // refresh(b);
+                    refresh(b);
                 }
 
                 pstart = start;
@@ -385,7 +379,7 @@ public class NewGameActivity extends AppCompatActivity {
                     String type = b.getSquare(startPos).getPieceType();
                     Log.i("Position + Type", "End:" + endPos + "---" + type);
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
-                    if(undid==true){
+                    if(undid){
                         undid=false;
                     }
                     prevBoard.printBoard();
@@ -468,7 +462,7 @@ public class NewGameActivity extends AppCompatActivity {
                     }
                     whiteTurn = !whiteTurn;
 
-                    if (validMove = true) {
+                    if (validMove) {
                         return;
                     }
 
@@ -497,7 +491,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     private void refresh(Board board) {
-        Square[][] s = prevBoard.getBoard();
+        Square[][] s = board.getBoard();
         prevBoard.printBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -593,7 +587,14 @@ public class NewGameActivity extends AppCompatActivity {
             for (int i = 0; i < 8; i++) {
                 if(pair != null) {
 
-                    //TODO: make moves
+//                    int start = getResId(pair[0], R.id.class);
+//                    int dest = getResId(pair[1], R.id.class);
+//
+//                    ImageView img = (ImageView) findViewById(start);
+//                    ImageView img1 = (ImageView) findViewById(dest);
+//
+//                    img.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
+//                    img1.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
 
                     return;
                 }
@@ -622,9 +623,15 @@ public class NewGameActivity extends AppCompatActivity {
             for (int i = 0; i < 8; i++) {
                 if(pair != null) {
 
-                    //TODO: make moves
-
-                    return;
+//                    int start = getResId(pair[0], R.id.class);
+//                    int dest = getResId(pair[1], R.id.class);
+//
+//                    ImageView img = (ImageView) findViewById(start);
+//                    ImageView img1 = (ImageView) findViewById(dest);
+//
+//                    img.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
+//                    img1.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
+//                    return;
                 }
                 for (int j = 0; j < 8; j++) {
                     Square temp = s[i][j];
