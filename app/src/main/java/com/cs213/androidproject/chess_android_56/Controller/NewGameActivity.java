@@ -14,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
 import com.cs213.androidproject.chess_android_56.Model.*;
 import com.cs213.androidproject.chess_android_56.SubViews.*;
 import com.cs213.androidproject.chess_android_56.R;
+
 import java.lang.reflect.Field;
 
 public class NewGameActivity extends AppCompatActivity {
@@ -37,18 +39,18 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean whiteCap = false;
     private boolean validMove = false;
     private boolean passantdraw = false;
-    private boolean undoPassant=false;
-    private boolean undoPromotion=false;
-    private String prevPassant="";
-    private boolean undid=false;
+    private boolean undoPassant = false;
+    private boolean undoPromotion = false;
+    private String prevPassant = "";
+    private boolean undid = false;
     private static boolean draw = false;
     private String passantLocation;
     private String gameLog = "";
     public static String promoteTo = "Q";
     public static ImageView changedImage;
-    public Board prevBoard=new Board();
-    private Piece caped ;
-    String pieceSig="";
+    public Board prevBoard = new Board();
+    private Piece caped;
+    String pieceSig = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,123 +65,110 @@ public class NewGameActivity extends AppCompatActivity {
 
     // TODO: what if promotion, what if castling? ADD MORE!!!
     public void undoClick(View v) {
-        if(undid==false){
-            if(undoPromotion){
+        if (undid == false) {
+            if (undoPromotion) {
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 starting.setImageResource(android.R.color.transparent); // make it transparent
-                if(b.getSquare(pep).getPieceColor().equals("w")){
+                if (b.getSquare(pep).getPieceColor().equals("w")) {
                     Pawn temp = new Pawn("white");
                     b.getSquare(pep).setPiece(temp);
                     b.getSquare(psp).setPiece(null);
                     ending.setImageResource(R.drawable.whitepawn);
 
-                }
-                else{
+                } else {
                     Pawn temp = new Pawn("black");
                     b.getSquare(psp).setPiece(temp);
                     b.getSquare(psp).setPiece(null);
                     ending.setImageResource(R.drawable.blackpawn);
                 }
-                undoPromotion=false;
-            }
-            else if(undoPassant){
+                undoPromotion = false;
+            } else if (undoPassant) {
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
                 ending.setImageDrawable(draw);
-                b.getSquare(pep).getPiece().move(pep,psp,b);
+                b.getSquare(pep).getPiece().move(pep, psp, b);
                 Resources res = getResources();
                 System.out.println(prevPassant);
                 int id2 = res.getIdentifier(prevPassant, "id", NewGameActivity.this.getPackageName());
                 ImageView op = (ImageView) findViewById(id2);
-                if(b.getSquare(psp).getPieceColor().equals("w")) {
+                if (b.getSquare(psp).getPieceColor().equals("w")) {
                     Pawn temp = new Pawn("black");
                     b.getSquare(pep).setPiece(temp);
                     op.setImageResource(R.drawable.blackpawn);
-                }
-                else{
+                } else {
                     Pawn temp = new Pawn("white");
                     b.getSquare(pep).setPiece(temp);
                     op.setImageResource(R.drawable.whitepawn);
                 }
-                undoPassant=false;
-            }
-            else if(pieceSig.equals("")){
+                undoPassant = false;
+            } else if (pieceSig.equals("")) {
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
                 ending.setImageDrawable(draw);
-                b.getSquare(pep).getPiece().move(pep,psp,b);
-            }
-            else {
+                b.getSquare(pep).getPiece().move(pep, psp, b);
+            } else {
                 ImageView img = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
                 Drawable draw = img.getDrawable();
-                Piece temp=null;
-                if (pieceSig.charAt(1)=='R') {
-                    if (pieceSig.charAt(0)=='w') {
+                Piece temp = null;
+                if (pieceSig.charAt(1) == 'R') {
+                    if (pieceSig.charAt(0) == 'w') {
                         img.setImageResource(R.drawable.whiterook);
-                        temp=new Rook("white");
+                        temp = new Rook("white");
                     } else {
                         img.setImageResource(R.drawable.blackrook);
-                        temp=new Rook("black");
+                        temp = new Rook("black");
                     }
-                }
-                else if(pieceSig.charAt(1)=='N'){
-                    if(pieceSig.charAt(0)=='w'){
+                } else if (pieceSig.charAt(1) == 'N') {
+                    if (pieceSig.charAt(0) == 'w') {
                         img.setImageResource(R.drawable.whiteknight);
-                        temp=new Knight("white");
-                    }
-                    else{
+                        temp = new Knight("white");
+                    } else {
                         img.setImageResource(R.drawable.blackknight);
-                        temp=new Knight("black");
+                        temp = new Knight("black");
                     }
-                }
-                else if(pieceSig.charAt(1)=='B'){
-                    if(pieceSig.charAt(0)=='w'){
+                } else if (pieceSig.charAt(1) == 'B') {
+                    if (pieceSig.charAt(0) == 'w') {
                         img.setImageResource(R.drawable.whitebishop);
-                        temp=new Bishop("white");
-                    }
-                    else{
+                        temp = new Bishop("white");
+                    } else {
                         img.setImageResource(R.drawable.blackbishop);
-                        temp=new Bishop("black");
+                        temp = new Bishop("black");
                     }
-                }
-                else if(pieceSig.charAt(1)=='Q'){
-                    if(pieceSig.charAt(0)=='w'){
+                } else if (pieceSig.charAt(1) == 'Q') {
+                    if (pieceSig.charAt(0) == 'w') {
                         img.setImageResource(R.drawable.whitequeen);
-                        temp=new Queen("white");
-                    }
-                    else{
+                        temp = new Queen("white");
+                    } else {
                         img.setImageResource(R.drawable.blackqueen);
-                        temp=new Queen("black");
+                        temp = new Queen("black");
                     }
-                }
-                else if(pieceSig.charAt(1)=='p'){
-                    if(pieceSig.charAt(0)=='w'){
+                } else if (pieceSig.charAt(1) == 'p') {
+                    if (pieceSig.charAt(0) == 'w') {
                         img.setImageResource(R.drawable.whitepawn);
-                        temp=new Pawn("white");
-                    }
-                    else{
+                        temp = new Pawn("white");
+                    } else {
                         img.setImageResource(R.drawable.blackpawn);
-                        temp=new Pawn("black");
+                        temp = new Pawn("black");
                     }
                 }
-                b.getSquare(pep).getPiece().move(pep,psp,b);
+                b.getSquare(pep).getPiece().move(pep, psp, b);
                 b.getSquare(pep).setPiece(temp);
                 ending.setImageDrawable(draw);
             }
 
 
-            if(!(b.getSquare(psp).getPiece()==null) && b.getSquare(psp).getPieceType().equals("p")){
-                b.getSquare(psp).getPiece().hasMoved=false;
+            if (!(b.getSquare(psp).getPiece() == null) && b.getSquare(psp).getPieceType().equals("p")) {
+                b.getSquare(psp).getPiece().hasMoved = false;
             }
             whiteTurn = !whiteTurn;
             gameLog = gameLog.substring(gameLog.length() - 6);
-            undid=true;
+            undid = true;
         }
         refresh(b);
 
@@ -286,9 +275,9 @@ public class NewGameActivity extends AppCompatActivity {
                     ImageView op = (ImageView) findViewById(id2);
                     op.setImageResource(android.R.color.transparent);
                     passantdraw = false;
-                    prevPassant=passantLocation;
+                    prevPassant = passantLocation;
                     passantLocation = "";
-                    undoPassant=true;
+                    undoPassant = true;
                     refresh(b);
                 }
                 if ((startPos.equals("e1")) || startPos.equals("e8")) {
@@ -354,7 +343,7 @@ public class NewGameActivity extends AppCompatActivity {
                         } else if (b.getSquare(startPos).getPiece().isWhite() == false && !(whiteTurn)) {
                             blackKing = b.getSquare(endPos);
                         }
-                        //refresh(b);
+                        refresh(b);
 
                     } else if (b.getSquare(endPos).getPiece() != null && b.getSquare(endPos).getPieceType().equals("K")) {
 
@@ -363,24 +352,23 @@ public class NewGameActivity extends AppCompatActivity {
                         } else if (b.getSquare(endPos).getPiece().isWhite() == false && whiteTurn) {
                             blackCap = true;
                         }
-                        //refresh(b);
+                        refresh(b);
                     }
 
-                    if(b.getSquare(endPos).getPiece()!=null){
-                        caped=b.getSquare(endPos).getPiece();
-                        pieceSig=b.getSquare(endPos).toString();
-                    }
-                    else if(b.getSquare(endPos).getPiece()==null){
-                        caped=null;
-                        pieceSig="";
+                    if (b.getSquare(endPos).getPiece() != null) {
+                        caped = b.getSquare(endPos).getPiece();
+                        pieceSig = b.getSquare(endPos).toString();
+                    } else if (b.getSquare(endPos).getPiece() == null) {
+                        caped = null;
+                        pieceSig = "";
                     }
 
 
                     String type = b.getSquare(startPos).getPieceType();
                     Log.i("Position + Type", "End:" + endPos + "---" + type);
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
-                    if(undid){
-                        undid=false;
+                    if (undid) {
+                        undid = false;
                     }
                     prevBoard.printBoard();
                     // TODO: Watch Out for later bugs
@@ -401,18 +389,18 @@ public class NewGameActivity extends AppCompatActivity {
                             PassantTrack = null;
                         }
                         if (whiteCap) {
-                            gameLog+= startPos +","+ endPos +'|';
-                            finishGame(true,gameLog);
+                            gameLog += startPos + "," + endPos + '|';
+                            finishGame(true, gameLog);
                             return;
                         } else if (blackCap) {
-                            gameLog+= startPos +","+ endPos +'|';
-                            finishGame(false,gameLog);
+                            gameLog += startPos + "," + endPos + '|';
+                            finishGame(false, gameLog);
                             return;
                         }
 
                         int ID = NewGameActivity.getResId(endPos, R.id.class);
                         changedImage = (ImageView) findViewById(ID);
-                        undoPromotion=true;
+                        undoPromotion = true;
                         promotion();
 
                     } else {
@@ -435,12 +423,12 @@ public class NewGameActivity extends AppCompatActivity {
                         System.out.println();
                         b.printBoard();
                         if (whiteCap) {
-                            gameLog+= startPos +","+ endPos +'|';
-                            finishGame(true,gameLog);
+                            gameLog += startPos + "," + endPos + '|';
+                            finishGame(true, gameLog);
                             return;
                         } else if (blackCap) {
-                            gameLog+= startPos +","+ endPos +'|';
-                            finishGame(false,gameLog);
+                            gameLog += startPos + "," + endPos + '|';
+                            finishGame(false, gameLog);
                             return;
                         }
 
@@ -452,11 +440,11 @@ public class NewGameActivity extends AppCompatActivity {
 
                         if (whiteKing.getPiece().checkMate(b)) {
                             makeToast("Black wins");
-                            finishGame(true,gameLog);
+                            finishGame(true, gameLog);
                             return;
                         } else if (blackKing.getPiece().checkMate(b)) {
                             makeToast("White wins");
-                            finishGame(false,gameLog);
+                            finishGame(false, gameLog);
                             return;
                         }
                     }
@@ -481,10 +469,10 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    public void finishGame(boolean blackWins,String log) {
+    public void finishGame(boolean blackWins, String log) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
-        EndGame.log=log;
+        EndGame.log = log;
         startActivity(intent);
         //TODO: Uncomment it later, keep it for testing purpose
         //finish();
@@ -506,51 +494,40 @@ public class NewGameActivity extends AppCompatActivity {
 
                 if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
                     img.setImageResource(android.R.color.transparent);
-                }
-                else if (temp.getPieceType().equals("R")) {
+                } else if (temp.getPieceType().equals("R")) {
                     if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whiterook);
                     } else {
                         img.setImageResource(R.drawable.blackrook);
                     }
-                }
-                else if(temp.getPieceType().equals("N")){
-                    if(temp.getPiece().isWhite()){
+                } else if (temp.getPieceType().equals("N")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whiteknight);
-                    }
-                    else{
+                    } else {
                         img.setImageResource(R.drawable.blackknight);
                     }
-                }
-                else if(temp.getPieceType().equals("R")){
-                    if(temp.getPiece().isWhite()){
+                } else if (temp.getPieceType().equals("R")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whiterook);
-                    }
-                    else{
+                    } else {
                         img.setImageResource(R.drawable.blackrook);
                     }
-                }
-                else if(temp.getPieceType().equals("B")){
-                    if(temp.getPiece().isWhite()){
+                } else if (temp.getPieceType().equals("B")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whitebishop);
-                    }
-                    else{
+                    } else {
                         img.setImageResource(R.drawable.blackbishop);
                     }
-                }
-                else if(temp.getPieceType().equals("Q")){
-                    if(temp.getPiece().isWhite()){
+                } else if (temp.getPieceType().equals("Q")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whitequeen);
-                    }
-                    else{
+                    } else {
                         img.setImageResource(R.drawable.blackqueen);
                     }
-                }
-                else if(temp.getPieceType().equals("p")){
-                    if(temp.getPiece().isWhite()){
+                } else if (temp.getPieceType().equals("p")) {
+                    if (temp.getPiece().isWhite()) {
                         img.setImageResource(R.drawable.whitepawn);
-                    }
-                    else{
+                    } else {
                         img.setImageResource(R.drawable.blackpawn);
                     }
                 }
@@ -581,15 +558,21 @@ public class NewGameActivity extends AppCompatActivity {
 
     public void AIButton(View v) {
 
-        Log.i("ID", " "+ pstart +" "+pend);
+        Log.i("ID", " " + pstart + " " + pend);
 
         Square[][] s = b.getBoard();
         String[] pair = null;
 
-        if (whiteTurn){
-            for (int i = 0; i < 8; i++) {
-                if(pair != null) {
 
+        if (whiteTurn) {
+            for (int i = 0; i < 8; i++) {
+                if (pair != null) {
+
+                    startPos = pair[0];
+                    endPos = pair[1];
+
+                    game();
+                    refresh(b);
                     int start = getResId(pair[0], R.id.class);
                     int dest = getResId(pair[1], R.id.class);
 
@@ -599,15 +582,6 @@ public class NewGameActivity extends AppCompatActivity {
                     psp = pair[0];
                     pep = pair[1];
                     gameLog += psp + ',' + pep + '|';
-                    ImageView img = (ImageView) findViewById(start);
-                    ImageView img1 = (ImageView) findViewById(dest);
-
-                    Drawable temp = img.getDrawable();
-                    img.setImageResource(android.R.color.transparent);
-                    img1.setImageDrawable(temp);
-                    b.getSquare(pair[0]).getPiece().move(pair[0], pair[1],b);
-
-                    whiteTurn = !whiteTurn;
 
                     return;
                 }
@@ -619,41 +593,36 @@ public class NewGameActivity extends AppCompatActivity {
                     String id = file + "" + rank;
 
                     if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
-                       continue;
-                    }else if (!temp.getPieceColor().equals("w")){
                         continue;
-                    }else{
+                    } else if (!temp.getPieceColor().equals("w")) {
+                        continue;
+                    } else {
                         //Log.i("The starting:", id);
 
                         pair = possibleEndPos(id);
-                        if(pair != null){
+                        if (pair != null) {
                             break;
                         }
                     }
                 }
             }
-        }else{
+        } else {
             for (int i = 0; i < 8; i++) {
-                if(pair != null) {
+                if (pair != null) {
 
+                    startPos = pair[0];
+                    endPos = pair[1];
+                    game();
+                    refresh(b);
                     int start = getResId(pair[0], R.id.class);
                     int dest = getResId(pair[1], R.id.class);
 
                     pstart = start;
                     pend = dest;
+
                     psp = pair[0];
                     pep = pair[1];
                     gameLog += psp + ',' + pep + '|';
-                    ImageView img = (ImageView) findViewById(start);
-                    ImageView img1 = (ImageView) findViewById(dest);
-
-                    Drawable temp = img.getDrawable();
-                    img.setImageResource(android.R.color.transparent);
-                    img1.setImageDrawable(temp);
-
-                    b.getSquare(pair[0]).getPiece().move(pair[0], pair[1],b);
-
-                    whiteTurn = !whiteTurn;
                     return;
                 }
                 for (int j = 0; j < 8; j++) {
@@ -665,11 +634,11 @@ public class NewGameActivity extends AppCompatActivity {
 
                     if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
                         continue;
-                    }else if (!temp.getPieceColor().equals("b")){
+                    } else if (!temp.getPieceColor().equals("b")) {
                         continue;
-                    }else{
+                    } else {
                         pair = possibleEndPos(id);
-                        if(pair != null){
+                        if (pair != null) {
                             break;
                         }
                     }
@@ -680,22 +649,23 @@ public class NewGameActivity extends AppCompatActivity {
 
     /**
      * Return a pair of location, {start, end}
+     *
      * @param start where the piece starts moving
      * @return null if cannot find any valid move, else return the pair
      */
     @Nullable
-    private String[] possibleEndPos(String start){
+    private String[] possibleEndPos(String start) {
         String[] pair = new String[2];
         pair[0] = start;
 
         Square startPiece = b.getSquare(start);
         String[] listOfPos = ListOfPos.getPos();
 
-        for(int i = 0; i < 64; i++){
-            if(startPiece.getPiece().isValidMove(start, listOfPos[i], b)) {
+        for (int i = 0; i < 64; i++) {
+            if (startPiece.getPiece().isValidMove(start, listOfPos[i], b)) {
                 pair[1] = listOfPos[i];
                 b.printBoard();
-                Log.i("Position:", pair[0]+" "+pair[1]);
+                Log.i("Position:", pair[0] + " " + pair[1]);
                 return pair;
             }
         }
