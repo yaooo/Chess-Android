@@ -29,16 +29,18 @@ public class Replay extends AppCompatActivity {
     public static String gameName;
     public ArrayList<String> moves = new ArrayList<String>();
     Board b= new Board();
-    static int ia=0;
+    private int ia=0;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_replay);
+        ia=0;
+
         System.out.println(gameName);
         String ret="";
         String game = "";
         Button btn = (Button)findViewById(R.id.next);
         btn.setEnabled(true);
-        //ArrayList<String> moves=new ArrayList<>();
         Context context = this.getApplicationContext();
         System.out.println(ia);
         try {
@@ -92,6 +94,7 @@ public class Replay extends AppCompatActivity {
         System.out.println(q);
         return q;
     }
+
     public ArrayList<String> getMoves(String s){
         ArrayList<String>m=new ArrayList<>();
         String move="" ;
