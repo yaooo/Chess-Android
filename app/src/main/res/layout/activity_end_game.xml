@@ -31,14 +31,14 @@
 
         <Button
             android:id="@+id/goBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/whoWins"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="138dp"
             android:fontFamily="serif"
             android:text="@string/finish"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/whoWins"
@@ -58,12 +58,13 @@
 
         <Button
             android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/goBack"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:onClick="saveGame"
-            android:text="Save Game" />
+            android:text="Save Game"
+            android:textSize="18sp" />
     </RelativeLayout>
 </RelativeLayout>
