@@ -587,14 +587,18 @@ public class NewGameActivity extends AppCompatActivity {
             for (int i = 0; i < 8; i++) {
                 if(pair != null) {
 
-//                    int start = getResId(pair[0], R.id.class);
-//                    int dest = getResId(pair[1], R.id.class);
-//
-//                    ImageView img = (ImageView) findViewById(start);
-//                    ImageView img1 = (ImageView) findViewById(dest);
-//
-//                    img.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
-//                    img1.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
+                    int start = getResId(pair[0], R.id.class);
+                    int dest = getResId(pair[1], R.id.class);
+
+                    ImageView img = (ImageView) findViewById(start);
+                    ImageView img1 = (ImageView) findViewById(dest);
+
+                    Drawable temp = img.getDrawable();
+                    img.setImageResource(android.R.color.transparent);
+                    img1.setImageDrawable(temp);
+                    b.getSquare(pair[0]).getPiece().move(pair[0], pair[1],b);
+
+                    whiteTurn = !whiteTurn;
 
                     return;
                 }
@@ -623,15 +627,20 @@ public class NewGameActivity extends AppCompatActivity {
             for (int i = 0; i < 8; i++) {
                 if(pair != null) {
 
-//                    int start = getResId(pair[0], R.id.class);
-//                    int dest = getResId(pair[1], R.id.class);
-//
-//                    ImageView img = (ImageView) findViewById(start);
-//                    ImageView img1 = (ImageView) findViewById(dest);
-//
-//                    img.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
-//                    img1.setBackgroundColor(getResources().getColor(R.color.deepSkyBlue));
-//                    return;
+                    int start = getResId(pair[0], R.id.class);
+                    int dest = getResId(pair[1], R.id.class);
+
+                    ImageView img = (ImageView) findViewById(start);
+                    ImageView img1 = (ImageView) findViewById(dest);
+
+                    Drawable temp = img.getDrawable();
+                    img.setImageResource(android.R.color.transparent);
+                    img1.setImageDrawable(temp);
+
+                    b.getSquare(pair[0]).getPiece().move(pair[0], pair[1],b);
+
+                    whiteTurn = !whiteTurn;
+                    return;
                 }
                 for (int j = 0; j < 8; j++) {
                     Square temp = s[i][j];
