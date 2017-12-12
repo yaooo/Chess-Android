@@ -23,10 +23,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-/**
- * Created by Sagar on 12/11/2017.
- */
-
 
 
 public class Replay extends AppCompatActivity {
@@ -40,6 +36,8 @@ public class Replay extends AppCompatActivity {
         System.out.println(gameName);
         String ret="";
         String game = "";
+        Button btn = (Button)findViewById(R.id.next);
+        btn.setEnabled(true);
         //ArrayList<String> moves=new ArrayList<>();
         Context context = this.getApplicationContext();
         System.out.println(ia);
@@ -73,9 +71,6 @@ public class Replay extends AppCompatActivity {
     }
 
 
-    public void ImageOnClick(View v){
-        return ;
-    }
     public String getGame(String s){
         ArrayList<String> L=new ArrayList<>();
         int begin=0;
@@ -201,6 +196,8 @@ public class Replay extends AppCompatActivity {
 
     public void onClickNextButton(View v){
         if(ia==moves.size()-1){
+            Button btn = (Button)findViewById(R.id.next);
+            btn.setEnabled(false);
             CharSequence text = "End of game";
             int duration = Toast.LENGTH_SHORT;
             Context context = this.getApplicationContext();
