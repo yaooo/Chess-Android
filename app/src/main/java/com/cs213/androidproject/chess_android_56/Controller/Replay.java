@@ -67,10 +67,22 @@ public class Replay extends AppCompatActivity {
     public ArrayList<String> getMoves(String s){
         ArrayList<String> L=new ArrayList<>();
         int begin=0;
+        int movebegin;
+        String q="";
         if(s.contains(gameName)){
             begin=s.indexOf(gameName);
             System.out.println(begin);
         }
+        movebegin=s.indexOf('~',begin);
+        boolean parse=false;
+        for(int i=movebegin+1;i<s.length();i++){
+            if(s.charAt(i)==':'){
+                break ;
+            }
+            q+=s.charAt(i);
+
+        }
+        System.out.println(q);
         return L;
     }
 
