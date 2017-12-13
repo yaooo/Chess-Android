@@ -8,6 +8,7 @@ import com.cs213.androidproject.chess_android_56.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -205,13 +206,19 @@ public class Replay extends AppCompatActivity {
         if(ia==moves.size()-1){
             Button btn = (Button)findViewById(R.id.next);
             btn.setEnabled(false);
-            CharSequence text = "End of game";
+            CharSequence text = "End of the game...";
             int duration = Toast.LENGTH_SHORT;
             Context context = this.getApplicationContext();
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, 3000);
         }
         System.out.println(ia);
         String parts[]=moves.get(ia).split(",");

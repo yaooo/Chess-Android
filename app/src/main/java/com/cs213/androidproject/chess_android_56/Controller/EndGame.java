@@ -29,6 +29,7 @@ import java.io.*;
 public class EndGame extends AppCompatActivity {
 
     public static boolean blackWins = true;
+    public static boolean draw = false;
     public static String log = "";
     private boolean gameSaved = false;
     public String m_Text = "";
@@ -42,7 +43,9 @@ public class EndGame extends AppCompatActivity {
 
         gameSaved = false;
         display();
-        if (!blackWins) {
+        if (draw) {
+            title.setText(R.string.draw);
+        } else if (!blackWins) {
             title.setText(R.string.WhiteWins);
         }
         back.setOnClickListener(new View.OnClickListener() {

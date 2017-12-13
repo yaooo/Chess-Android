@@ -251,10 +251,7 @@ public class NewGameActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
-
-                        startActivity(intent);
+                        finishGame(true, gameLog,true);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -276,19 +273,21 @@ public class NewGameActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
 
         if (whiteTurn) {
-            alertDialogBuilder.setTitle("Are you sure you want to concede the game white player?");
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game, white player?");
         } else {
-            alertDialogBuilder.setTitle("Are you sure you want to concede the game black player?");
+            alertDialogBuilder.setTitle("Are you sure you want to concede the game, black player?");
         }
         alertDialogBuilder
                 .setMessage("Concede?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, close
-                        // current activity
+                        if(whiteTurn){
+                            finishGame(true, gameLog,false);
+                        }else{
+                            finishGame(false, gameLog,false);
+                        }
 
-                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -469,11 +468,11 @@ public class NewGameActivity extends AppCompatActivity {
                         }
                         if (whiteCap) {
                             gameLog += startPos + "," + endPos + '|';
-                            finishGame(true, gameLog);
+                            finishGame(true, gameLog, false);
                             return;
                         } else if (blackCap) {
                             gameLog += startPos + "," + endPos + '|';
-                            finishGame(false, gameLog);
+                            finishGame(false, gameLog, false);
                             return;
                         }
 
@@ -504,11 +503,11 @@ public class NewGameActivity extends AppCompatActivity {
                         b.printBoard();
                         if (whiteCap) {
                             gameLog += startPos + "," + endPos + '|';
-                            finishGame(true, gameLog);
+                            finishGame(true, gameLog,false);
                             return;
                         } else if (blackCap) {
                             gameLog += startPos + "," + endPos + '|';
-                            finishGame(false, gameLog);
+                            finishGame(false, gameLog,false);
                             return;
                         }
 
@@ -521,11 +520,11 @@ public class NewGameActivity extends AppCompatActivity {
 
                         if (whiteKing.getPiece().checkMate(b)) {
                             makeToast("Black wins");
-                            finishGame(true, gameLog);
+                            finishGame(true, gameLog,false);
                             return;
                         } else if (blackKing.getPiece().checkMate(b)) {
                             makeToast("White wins");
-                            finishGame(false, gameLog);
+                            finishGame(false, gameLog, false);
                             return;
                         }
                     }
@@ -550,12 +549,12 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
 
-    public void finishGame(boolean blackWins, String log) {
+    public void finishGame(boolean blackWins, String log, boolean draw) {
         Intent intent = new Intent(this, EndGame.class);
         EndGame.blackWins = blackWins;
         EndGame.log = log;
+        EndGame.draw = draw;
         startActivity(intent);
-        //TODO: Uncomment it later, keep it for testing purpose
         finish();
     }
 
