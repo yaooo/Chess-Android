@@ -147,195 +147,163 @@
             <ImageView
                 android:id="@+id/a6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/b6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/c6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/d6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/e6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/f6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/g6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/h6"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/a5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
 
             <ImageView
                 android:id="@+id/b5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/c5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/d5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/e5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/f5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/g5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/h5"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/a4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/b4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/c4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/d4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/e4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/f4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/g4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/h4"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/a3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/b3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/c3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/d3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/e3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/f3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/g3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/h3"
                 android:layout_width="45dp"
-                android:layout_height="45dp"
- />
+                android:layout_height="45dp" />
 
             <ImageView
                 android:id="@+id/a2"
@@ -483,7 +451,6 @@
             android:text="Save Game"
             android:textSize="14sp" />
     </RelativeLayout>
-
 
 
 </RelativeLayout>

@@ -321,13 +321,12 @@ public class NewGameActivity extends AppCompatActivity {
 
             validMove = false;
 
-            if(currentLength < gameLog.length()){
+            if (currentLength < gameLog.length()) {
                 undoPromotion = false;
             }
 
 
-
-            if(b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())){
+            if (b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())) {
                 validMove = false;
                 makeToast("illegal move. You cannot eat your own piece");
                 return;

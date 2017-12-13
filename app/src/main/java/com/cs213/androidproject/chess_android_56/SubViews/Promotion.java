@@ -32,23 +32,23 @@ public class Promotion extends DialogFragment {
         String[] list = {"Queen", "Bishop", "Knight", "Rook"};
 
         builder.setSingleChoiceItems(list, 0, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                NewGameActivity.promoteTo = "Q";
-                                break;
-                            case 1:
-                                NewGameActivity.promoteTo = "B";
-                                break;
-                            case 2:
-                                NewGameActivity.promoteTo = "N";
-                                break;
-                            case 3:
-                                NewGameActivity.promoteTo = "R";
-                                break;
-                        }
-                    }
-                });
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        NewGameActivity.promoteTo = "Q";
+                        break;
+                    case 1:
+                        NewGameActivity.promoteTo = "B";
+                        break;
+                    case 2:
+                        NewGameActivity.promoteTo = "N";
+                        break;
+                    case 3:
+                        NewGameActivity.promoteTo = "R";
+                        break;
+                }
+            }
+        });
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -58,7 +58,7 @@ public class Promotion extends DialogFragment {
                 ImageView img = NewGameActivity.changedImage;
 
                 if (endPos.charAt(1) == '8') {
-                    Log.d("Promote to:", "  "+ NewGameActivity.promoteTo);
+                    Log.d("Promote to:", "  " + NewGameActivity.promoteTo);
                     Log.d("End Pos", endPos);
 
                     switch (NewGameActivity.promoteTo.charAt(0)) {

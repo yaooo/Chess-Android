@@ -29,9 +29,10 @@ import java.io.*;
 public class EndGame extends AppCompatActivity {
 
     public static boolean blackWins = true;
-    public static String log="";
-    public static boolean gameSaved=false;
+    public static String log = "";
+    public static boolean gameSaved = false;
     public String m_Text = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +57,10 @@ public class EndGame extends AppCompatActivity {
 
     }
 
-    public void saveGame(View v) throws IOException{
-        if(!(gameSaved)){
-            final ArrayList<String> titles=getTitles();
-            final Context context= getApplication().getApplicationContext();
+    public void saveGame(View v) throws IOException {
+        if (!(gameSaved)) {
+            final ArrayList<String> titles = getTitles();
+            final Context context = getApplication().getApplicationContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Title");
 
@@ -69,21 +70,19 @@ public class EndGame extends AppCompatActivity {
             builder.setView(input);
 
 
-
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     m_Text = input.getText().toString();
 
                     try {
-                        if(m_Text.length()<3){
+                        if (m_Text.length() < 3) {
                             makeToast("please enter a title with more than 3 characters");
-                            return ;
-                        }
-                        else if(titles.contains(m_Text)){
+                            return;
+                        } else if (titles.contains(m_Text)) {
                             makeToast("title name taken please enter another title name");
                             return;
-                        }else{
+                        } else {
                             Context context = getApplicationContext();
                             CharSequence text = "Going back to Main Menu...";
                             int duration = Toast.LENGTH_SHORT;
@@ -92,16 +91,16 @@ public class EndGame extends AppCompatActivity {
                             launchNewActivity();
                         }
                         Date d = Calendar.getInstance().getTime();
-                        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-                        String df=sdf.format(d);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        String df = sdf.format(d);
                         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("gameHistory.txt", Context.MODE_APPEND));
-                        log=m_Text+"+"+df+"~"+log;
-                        log+=":|";
+                        log = m_Text + "+" + df + "~" + log;
+                        log += ":|";
                         outputStreamWriter.write(log);
                         outputStreamWriter.close();
                         makeToast("game saved");
                         gameSaved = true;
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -114,8 +113,7 @@ public class EndGame extends AppCompatActivity {
             });
             builder.show();
 
-        }
-        else{
+        } else {
             makeToast("game already saved");
 
         }
@@ -128,16 +126,17 @@ public class EndGame extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void makeToast(String msg){
+    public void makeToast(String msg) {
         Context context = getApplicationContext();
         CharSequence text = msg;
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
-    public ArrayList<String> getTitles(){
+
+    public ArrayList<String> getTitles() {
         Context context = this.getApplicationContext();
-        String ret="";
+        String ret = "";
         try {
 
             InputStream inputStream = context.openFileInput("gameHistory.txt");
@@ -159,26 +158,25 @@ public class EndGame extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayList<String> g=new ArrayList<String>();
-        String current="";
-        boolean title=true;
-        for(int i=0;i< ret.length();i++){
+        ArrayList<String> g = new ArrayList<String>();
+        String current = "";
+        boolean title = true;
+        for (int i = 0; i < ret.length(); i++) {
             char a = ret.charAt(i);
-            if(a=='+' && title==true){
-                title=false;
+            if (a == '+' && title == true) {
+                title = false;
                 g.add(current);
-                current="";
-            }
-            else if(a==':' && title==false){
-                i=i+2;
-                if(i>=ret.length()){
+                current = "";
+            } else if (a == ':' && title == false) {
+                i = i + 2;
+                if (i >= ret.length()) {
                     break;
                 }
-                title=true;
+                title = true;
                 a = ret.charAt(i);
             }
 
-            if(title==true) {
+            if (title == true) {
                 current += a;
             }
         }
@@ -186,7 +184,7 @@ public class EndGame extends AppCompatActivity {
         return g;
     }
 
-    private void display(){
+    private void display() {
         Board b = NewGameActivity.b;
         refresh(b);
     }
@@ -246,6 +244,7 @@ public class EndGame extends AppCompatActivity {
             }
         }
     }
+
     public static int getResId(String resName, Class<?> c) {
         try {
             Field idField = c.getDeclaredField(resName);
