@@ -37,7 +37,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean whiteTurn = true;
     private boolean blackCap = false;
     private boolean whiteCap = false;
-    private boolean validMove = false;
+    private static boolean validMove = false;
     private boolean passantdraw = false;
     private boolean undoPassant = false;
     private boolean undoPromotion = false;
@@ -58,7 +58,7 @@ public class NewGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_game);
         b.initBoard();
         prevBoard.initBoard();
-
+        validMove = false;
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
     }
@@ -265,6 +265,7 @@ public class NewGameActivity extends AppCompatActivity {
             ImageView starting = (ImageView) findViewById(start);
             ImageView ending = (ImageView) findViewById(end);
             game();
+            Log.i("Valid?", "King valid" + validMove);
             if (validMove) {
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
@@ -291,7 +292,7 @@ public class NewGameActivity extends AppCompatActivity {
                 gameLog += psp + "," + pep + "|";
 
                 System.out.println(gameLog);
-            } else {
+                validMove = false;
             }
         }
         Log.i("The onClick id is:", "" + v.getId());
@@ -316,6 +317,12 @@ public class NewGameActivity extends AppCompatActivity {
         if (startPos.length() == 2 && endPos.length() == 2) {
 
             validMove = false;
+
+            if(b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())){
+                validMove = false;
+                makeToast("illegal move. You cannot eat your own piece");
+                return;
+            }
             Pawn PassantTrack = null;
             while (!(whiteKing.getPiece().checkMate(b)) && !(blackKing.getPiece().checkMate(b))) {
                 if (b.getSquare(startPos).getPiece() == null) {
@@ -336,7 +343,10 @@ public class NewGameActivity extends AppCompatActivity {
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
+
+                    Log.i("Changed to true???", validMove+"");
                     validMove = true;
+                    Log.i("King can eat?", "");
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
                         if (b.getSquare(startPos).getPiece().isWhite() && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
