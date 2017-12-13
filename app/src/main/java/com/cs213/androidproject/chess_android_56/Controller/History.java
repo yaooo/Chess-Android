@@ -84,23 +84,17 @@ public class History extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (ret == null || ret.length() == 0 || ret.equals("")) {
-            CharSequence text = "No games are saved yet!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            System.out.println("heelo");
 
+        if (ret == null || ret.length() == 0 || ret.equals("")) {
+            backtoMain();
         }
         gameTitles = getTitles();
         gameDates = getDates();
-        for (int i = 0; i < gameTitles.size(); i++) {
-            gameTitles.get(i).trim();
-            System.out.println(gameTitles.get(i));
-            gameDisplay.add(gameTitles.get(i) + "," + gameDates.get(i));
-        }
+//        for (int i = 0; i < gameTitles.size(); i++) {
+//            gameTitles.get(i).trim();
+//            System.out.println(gameTitles.get(i));
+//            gameDisplay.add(gameTitles.get(i) + "," + gameDates.get(i));
+//        }
         listAdapter.addAll(gameDisplay);
         historyListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -117,6 +111,9 @@ public class History extends AppCompatActivity {
         ArrayList<String> g = new ArrayList<String>();
         String current = "";
         boolean title = true;
+        if(ret==null){
+            return null ;
+        }
         for (int i = 0; i < ret.length(); i++) {
             char a = ret.charAt(i);
             if (a == '+' && title == true) {
@@ -144,6 +141,9 @@ public class History extends AppCompatActivity {
         ArrayList<String> g = new ArrayList<String>();
         String current = "";
         boolean date = false;
+        if(ret==null){
+            return null;
+        }
         for (int i = 0; i < ret.length(); i++) {
             char a = ret.charAt(i);
             if (a == '+' && date == false) {
@@ -282,6 +282,17 @@ public class History extends AppCompatActivity {
         listAdapter.addAll(gameDisplay);
         listAdapter.notifyDataSetChanged();
 
+
+    }
+
+    public void backtoMain(){
+        Context context = this.getApplicationContext();
+        CharSequence text = "No games are saved yet!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
     }
 
