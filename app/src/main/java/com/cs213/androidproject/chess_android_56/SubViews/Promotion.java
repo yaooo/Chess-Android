@@ -88,19 +88,19 @@ public class Promotion extends DialogFragment {
                     switch (NewGameActivity.promoteTo.charAt(0)) {
                         case 'Q':
                             b.getSquare(endPos).setPiece(new Queen("black"));
-                            img.setImageResource(R.drawable.whitequeen);
+                            img.setImageResource(R.drawable.blackqueen);
                             break;
                         case 'B':
                             b.getSquare(endPos).setPiece(new Bishop("black"));
-                            img.setImageResource(R.drawable.whitebishop);
+                            img.setImageResource(R.drawable.blackbishop);
                             break;
                         case 'N':
                             b.getSquare(endPos).setPiece(new Knight("black"));
-                            img.setImageResource(R.drawable.whiteknight);
+                            img.setImageResource(R.drawable.blackknight);
                             break;
                         case 'R':
                             b.getSquare(endPos).setPiece(new Rook("black"));
-                            img.setImageResource(R.drawable.whiterook);
+                            img.setImageResource(R.drawable.blackrook);
                             break;
                         default:
                             break;
