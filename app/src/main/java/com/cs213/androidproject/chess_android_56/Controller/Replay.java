@@ -67,6 +67,10 @@ public class Replay extends AppCompatActivity {
         }
         game=getGame(ret);
         moves=getMoves(game);
+        System.out.println(game);
+        for(int i=0;i<moves.size();i++){
+            System.out.println(moves.get(i));
+        }
         b.initBoard();
         System.out.println(moves.get(0));
 
@@ -91,7 +95,7 @@ public class Replay extends AppCompatActivity {
             q+=s.charAt(i);
 
         }
-        System.out.println(q);
+        //System.out.println(q);
         return q;
     }
 
@@ -100,7 +104,7 @@ public class Replay extends AppCompatActivity {
         String move="" ;
         for(int i=0;i<s.length();i++){
             if(s.charAt(i)=='|'){
-                System.out.println(move);
+               // System.out.println(move);
                 m.add(move);
                 move="";
             }
@@ -209,7 +213,9 @@ public class Replay extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+        System.out.println(ia);
         String parts[]=moves.get(ia).split(",");
+        System.out.println(parts[0]+","+parts[1]);
         b.getSquare(parts[0]).getPiece().move(parts[0],parts[1],b);
         b.printBoard();
         ia++;

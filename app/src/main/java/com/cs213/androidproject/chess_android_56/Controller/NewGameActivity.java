@@ -384,9 +384,9 @@ public class NewGameActivity extends AppCompatActivity {
 
             validMove = false;
 
-            if (currentLength < gameLog.length()) {
-                undoPromotion = false;
-            }
+//            if (currentLength < gameLog.length()) {
+//                undoPromotion = false;
+//            }
 
 
             if (b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())) {

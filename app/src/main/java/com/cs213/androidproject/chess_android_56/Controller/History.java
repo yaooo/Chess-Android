@@ -84,13 +84,15 @@ public class History extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (ret.length() == 0 || ret.equals("") || ret == null) {
+        if (ret == null || ret.length() == 0 || ret.equals("")) {
             CharSequence text = "No games are saved yet!";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            System.out.println("heelo");
+
         }
         gameTitles = getTitles();
         gameDates = getDates();
