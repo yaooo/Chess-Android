@@ -33,9 +33,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.view.View;
 import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 
 import com.cs213.androidproject.chess_android_56.R;
@@ -103,6 +103,7 @@ public class History extends AppCompatActivity {
 
             }
         });
+        sortByDate(this.historyListView);
 
     }
 
@@ -111,8 +112,8 @@ public class History extends AppCompatActivity {
         ArrayList<String> g = new ArrayList<String>();
         String current = "";
         boolean title = true;
-        if(ret==null){
-            return null ;
+        if (ret == null) {
+            return null;
         }
         for (int i = 0; i < ret.length(); i++) {
             char a = ret.charAt(i);
@@ -141,7 +142,7 @@ public class History extends AppCompatActivity {
         ArrayList<String> g = new ArrayList<String>();
         String current = "";
         boolean date = false;
-        if(ret==null){
+        if (ret == null) {
             return null;
         }
         for (int i = 0; i < ret.length(); i++) {
@@ -217,7 +218,7 @@ public class History extends AppCompatActivity {
             d2 += gameDates.get(i + 1).charAt(9);
             int mi2 = Integer.parseInt(m2);
             int di2 = Integer.parseInt(d2);
-            System.out.println(di+"  "+di2);
+            System.out.println(di + "  " + di2);
 
             if (mi > mi2) {
                 Collections.swap(gameDates, i, i + 1);
@@ -285,7 +286,7 @@ public class History extends AppCompatActivity {
 
     }
 
-    public void backtoMain(){
+    public void backtoMain() {
         Context context = this.getApplicationContext();
         CharSequence text = "No games are saved yet!";
         int duration = Toast.LENGTH_SHORT;
