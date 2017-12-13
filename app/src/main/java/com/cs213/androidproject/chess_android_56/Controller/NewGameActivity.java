@@ -52,6 +52,8 @@ public class NewGameActivity extends AppCompatActivity {
     private Piece caped;
     String pieceSig = "";
 
+    private int currentLength = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,7 @@ public class NewGameActivity extends AppCompatActivity {
         b.initBoard();
         prevBoard.initBoard();
         validMove = false;
+        currentLength = 0;
         whiteKing = b.getSquare("e1");
         blackKing = b.getSquare("e8");
     }
@@ -265,7 +268,7 @@ public class NewGameActivity extends AppCompatActivity {
             ImageView starting = (ImageView) findViewById(start);
             ImageView ending = (ImageView) findViewById(end);
             game();
-            Log.i("Valid?", "King valid" + validMove);
+//            Log.i("Valid?", "King valid" + validMove);
             if (validMove) {
                 Drawable draw = starting.getDrawable();
                 starting.setImageResource(android.R.color.transparent); // make it transparent
@@ -318,6 +321,12 @@ public class NewGameActivity extends AppCompatActivity {
 
             validMove = false;
 
+            if(currentLength < gameLog.length()){
+                undoPromotion = false;
+            }
+
+
+
             if(b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())){
                 validMove = false;
                 makeToast("illegal move. You cannot eat your own piece");
@@ -344,9 +353,7 @@ public class NewGameActivity extends AppCompatActivity {
                     return;
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
 
-                    Log.i("Changed to true???", validMove+"");
                     validMove = true;
-                    Log.i("King can eat?", "");
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
                         if (b.getSquare(startPos).getPiece().isWhite() && whiteTurn) {
                             whiteKing = b.getSquare(endPos);
@@ -375,12 +382,12 @@ public class NewGameActivity extends AppCompatActivity {
 
 
                     String type = b.getSquare(startPos).getPieceType();
-                    Log.i("Position + Type", "End:" + endPos + "---" + type);
+                    //Log.i("Position + Type", "End:" + endPos + "---" + type);
                     b.getSquare(startPos).getPiece().move(startPos, endPos, b);
                     if (undid) {
                         undid = false;
                     }
-                    prevBoard.printBoard();
+                    //prevBoard.printBoard();
                     // TODO: Watch Out for later bugs
                     if (type != null && type.equals("p") && (endPos.charAt(1) == '8' || endPos.charAt(1) == '1')) {
                         if (b.getSquare(endPos).getPieceType().equals("p")) {
@@ -411,6 +418,7 @@ public class NewGameActivity extends AppCompatActivity {
                         int ID = NewGameActivity.getResId(endPos, R.id.class);
                         changedImage = (ImageView) findViewById(ID);
                         undoPromotion = true;
+                        currentLength = gameLog.length();
                         promotion();
 
                     } else {
@@ -500,7 +508,7 @@ public class NewGameActivity extends AppCompatActivity {
                 int rank = 8 - i;
                 String id = file + "" + rank;
                 int ID = getResId(id, R.id.class);
-                Log.i("Position:", "" + file + rank);
+//                Log.i("Position:", "" + file + rank);
                 ImageView img = (ImageView) findViewById(ID);
 
                 if (temp.getPieceType() == null || temp.getPieceType().length() == 0) {
@@ -676,7 +684,7 @@ public class NewGameActivity extends AppCompatActivity {
             if (startPiece.getPiece().isValidMove(start, listOfPos[i], b)) {
                 pair[1] = listOfPos[i];
                 b.printBoard();
-                Log.i("Position:", pair[0] + " " + pair[1]);
+                //Log.i("Position:", pair[0] + " " + pair[1]);
                 return pair;
             }
         }

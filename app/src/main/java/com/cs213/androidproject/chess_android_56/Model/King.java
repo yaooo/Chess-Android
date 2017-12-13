@@ -1,5 +1,7 @@
 package com.cs213.androidproject.chess_android_56.Model;
 
+import android.util.Log;
+
 public class King extends Piece {
 
     /**
@@ -235,8 +237,8 @@ public class King extends Piece {
     	String oldkingPos=kingPos;
     	//System.out.println("from position:e3-----------");
     	cMate=b[start_rank][start_file].getPiece().inCheck(board);
-    	if(cMate==false) {
-    		return cMate;
+    	if(!cMate) {
+    		return false;
     	}
     	for(int i=start_rank-1;i<=start_rank+1;i++) {
     		for(int j=start_file-1;j<=start_file+1;j++) {
@@ -253,7 +255,31 @@ public class King extends Piece {
 	    			b[i][j].setPiece(null);
 	    			this.kingPos=oldkingPos;
 	    			board.setBoard(b);
-	    		}
+	    		}else if(b[i][j] != null){
+					String col = "";
+    				if(this.isWhite()){
+    					 col = "w";
+					}else{
+    					col = "b";
+					}
+					if(!b[i][j].getPieceColor().equals(col)) {
+						Piece temp = b[i][j].getPiece();
+						b[i][j].setPiece(this);
+						b[start_rank][start_file].setPiece(null);
+						board.setBoard(b);
+
+						String h = reverseN(i, j);
+						this.kingPos = h;
+
+						Log.i("Piece:", "" + this.getKingPos());
+						cMate = (cMate && this.inCheck(board));
+
+						b[start_rank][start_file].setPiece(this);
+						b[i][j].setPiece(temp);
+						this.kingPos = oldkingPos;
+						board.setBoard(b);
+					}
+				}
     		}
     	}
     	return cMate;
