@@ -41,18 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // Exit
-        Button out = (Button) findViewById(R.id.exit);
-        out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
-            }
-        });
-
-
     }
 
     private void launchNewGameActivity() {
