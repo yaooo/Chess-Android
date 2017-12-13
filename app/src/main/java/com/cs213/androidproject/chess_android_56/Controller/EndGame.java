@@ -30,7 +30,7 @@ public class EndGame extends AppCompatActivity {
 
     public static boolean blackWins = true;
     public static String log = "";
-    public static boolean gameSaved = false;
+    private boolean gameSaved = false;
     public String m_Text = "";
 
     @Override
@@ -40,6 +40,7 @@ public class EndGame extends AppCompatActivity {
         Button back = (Button) findViewById(R.id.goBack);
         TextView title = (TextView) findViewById(R.id.whoWins);
 
+        gameSaved = false;
         display();
         if (!blackWins) {
             title.setText(R.string.WhiteWins);
