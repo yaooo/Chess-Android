@@ -70,22 +70,85 @@ public class NewGameActivity extends AppCompatActivity {
     public void undoClick(View v) {
         if (undid == false) {
             if (undoPromotion) {
-                ImageView starting = (ImageView) findViewById(pend);
-                ImageView ending = (ImageView) findViewById(pstart);
-                starting.setImageResource(android.R.color.transparent); // make it transparent
-                if (b.getSquare(pep).getPieceColor().equals("w")) {
-                    Pawn temp = new Pawn("white");
-                    b.getSquare(pep).setPiece(temp);
-                    b.getSquare(psp).setPiece(null);
-                    ending.setImageResource(R.drawable.whitepawn);
+                if (!(pieceSig.equals(""))){
+                    ImageView img = (ImageView) findViewById(pend);
+                    ImageView ending = (ImageView) findViewById(pstart);
+                    Drawable draw = img.getDrawable();
+                    Piece temp = null;
+                    if (b.getSquare(pep).getPieceColor().equals("w")) {
+                        Pawn temp2 = new Pawn("white");
+                        b.getSquare(psp).setPiece(temp2);
+                        ending.setImageResource(R.drawable.whitepawn);
 
-                } else {
-                    Pawn temp = new Pawn("black");
-                    b.getSquare(psp).setPiece(temp);
-                    b.getSquare(psp).setPiece(null);
-                    ending.setImageResource(R.drawable.blackpawn);
+                    } else {
+                        Pawn temp2 = new Pawn("black");
+                        b.getSquare(psp).setPiece(temp2);
+                        ending.setImageResource(R.drawable.blackpawn);
+                    }
+
+                    if (pieceSig.charAt(1) == 'R') {
+                        if (pieceSig.charAt(0) == 'w') {
+                            img.setImageResource(R.drawable.whiterook);
+                            temp = new Rook("white");
+                        } else {
+                            img.setImageResource(R.drawable.blackrook);
+                            temp = new Rook("black");
+                        }
+                    } else if (pieceSig.charAt(1) == 'N') {
+                        if (pieceSig.charAt(0) == 'w') {
+                            img.setImageResource(R.drawable.whiteknight);
+                            temp = new Knight("white");
+                        } else {
+                            img.setImageResource(R.drawable.blackknight);
+                            temp = new Knight("black");
+                        }
+                    } else if (pieceSig.charAt(1) == 'B') {
+                        if (pieceSig.charAt(0) == 'w') {
+                            img.setImageResource(R.drawable.whitebishop);
+                            temp = new Bishop("white");
+                        } else {
+                            img.setImageResource(R.drawable.blackbishop);
+                            temp = new Bishop("black");
+                        }
+                    } else if (pieceSig.charAt(1) == 'Q') {
+                        if (pieceSig.charAt(0) == 'w') {
+                            img.setImageResource(R.drawable.whitequeen);
+                            temp = new Queen("white");
+                        } else {
+                            img.setImageResource(R.drawable.blackqueen);
+                            temp = new Queen("black");
+                        }
+                    } else if (pieceSig.charAt(1) == 'p') {
+                        if (pieceSig.charAt(0) == 'w') {
+                            img.setImageResource(R.drawable.whitepawn);
+                            temp = new Pawn("white");
+                        } else {
+                            img.setImageResource(R.drawable.blackpawn);
+                            temp = new Pawn("black");
+                        }
+                    }
+                    b.getSquare(pep).setPiece(temp);
+                    undoPromotion =false;
+
+
+                }else {
+                    ImageView starting = (ImageView) findViewById(pend);
+                    ImageView ending = (ImageView) findViewById(pstart);
+                    starting.setImageResource(android.R.color.transparent); // make it transparent
+                    if (b.getSquare(pep).getPieceColor().equals("w")) {
+                        Pawn temp = new Pawn("white");
+                        b.getSquare(psp).setPiece(temp);
+                        b.getSquare(pep).setPiece(null);
+                        ending.setImageResource(R.drawable.whitepawn);
+
+                    } else {
+                        Pawn temp = new Pawn("black");
+                        b.getSquare(psp).setPiece(temp);
+                        b.getSquare(pep).setPiece(null);
+                        ending.setImageResource(R.drawable.blackpawn);
+                    }
+                    undoPromotion = false;
                 }
-                undoPromotion = false;
             } else if (undoPassant) {
                 ImageView starting = (ImageView) findViewById(pend);
                 ImageView ending = (ImageView) findViewById(pstart);
@@ -328,7 +391,7 @@ public class NewGameActivity extends AppCompatActivity {
 
             if (b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())) {
                 validMove = false;
-                makeToast("illegal move. You cannot eat your own piece");
+                makeToast("illegal move. You cannot capture your own piece");
                 return;
             }
             Pawn PassantTrack = null;
@@ -498,7 +561,6 @@ public class NewGameActivity extends AppCompatActivity {
 
     private void refresh(Board board) {
         Square[][] s = board.getBoard();
-        prevBoard.printBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Square temp = s[i][j];
