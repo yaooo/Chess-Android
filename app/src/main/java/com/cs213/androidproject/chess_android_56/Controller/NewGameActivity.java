@@ -41,6 +41,7 @@ public class NewGameActivity extends AppCompatActivity {
     private boolean passantdraw = false;
     private boolean undoPassant = false;
     private boolean undoPromotion = false;
+    public boolean justPromoted =false;
     private String prevPassant = "";
     private boolean undid = false;
     private static boolean draw = false;
@@ -147,7 +148,7 @@ public class NewGameActivity extends AppCompatActivity {
                         b.getSquare(pep).setPiece(null);
                         ending.setImageResource(R.drawable.blackpawn);
                     }
-                    undoPromotion = false;
+
                 }
             } else if (undoPassant) {
                 ImageView starting = (ImageView) findViewById(pend);
@@ -232,8 +233,17 @@ public class NewGameActivity extends AppCompatActivity {
             if (!(b.getSquare(psp).getPiece() == null) && b.getSquare(psp).getPieceType().equals("p")) {
                 b.getSquare(psp).getPiece().hasMoved = false;
             }
+
+
+            if(undoPromotion==true){
+                gameLog=gameLog.substring(gameLog.length()-8);
+                undoPromotion=false;
+            }
+            else{
+                gameLog = gameLog.substring(gameLog.length() - 6);
+            }
+
             whiteTurn = !whiteTurn;
-            gameLog = gameLog.substring(gameLog.length() - 6);
             undid = true;
         }
         refresh(b);
@@ -354,8 +364,10 @@ public class NewGameActivity extends AppCompatActivity {
                 pend = end;
                 psp = startPos;
                 pep = endPos;
-                gameLog += psp + "," + pep + "|";
-
+                if(justPromoted==true){
+                }else {
+                    gameLog += psp + "," + pep + "|";
+                }
                 System.out.println(gameLog);
                 validMove = false;
             }
@@ -387,7 +399,12 @@ public class NewGameActivity extends AppCompatActivity {
 //                undoPromotion = false;
 //            }
 
+            if(justPromoted==true){
+                String type = b.getSquare(pep).getPieceType();
+                gameLog+= "P"+type+psp+","+pep+"|";
+                justPromoted=false ;
 
+            }
             if (b.getSquare(startPos).getPieceColor().equals(b.getSquare(endPos).getPieceColor())) {
                 validMove = false;
                 makeToast("illegal move. You cannot capture your own piece");
@@ -413,7 +430,9 @@ public class NewGameActivity extends AppCompatActivity {
                     validMove = false;
                     return;
                 } else if (b.getSquare(startPos).getPiece().isValidMove(startPos, endPos, b)) {
-
+                    if(undoPromotion==true){
+                        undoPromotion=false;
+                    }
                     validMove = true;
                     if (b.getSquare(startPos).getPieceType().equals("K")) {
                         if (b.getSquare(startPos).getPiece().isWhite() && whiteTurn) {
@@ -479,6 +498,7 @@ public class NewGameActivity extends AppCompatActivity {
                         int ID = NewGameActivity.getResId(endPos, R.id.class);
                         changedImage = (ImageView) findViewById(ID);
                         undoPromotion = true;
+                        justPromoted=true;
                         currentLength = gameLog.length();
                         promotion();
 

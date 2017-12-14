@@ -2,7 +2,11 @@ package com.cs213.androidproject.chess_android_56.Controller;
 
 import android.os.Bundle;
 
+import com.cs213.androidproject.chess_android_56.Model.Bishop;
 import com.cs213.androidproject.chess_android_56.Model.Board;
+import com.cs213.androidproject.chess_android_56.Model.Knight;
+import com.cs213.androidproject.chess_android_56.Model.Queen;
+import com.cs213.androidproject.chess_android_56.Model.Rook;
 import com.cs213.androidproject.chess_android_56.Model.Square;
 import com.cs213.androidproject.chess_android_56.R;
 import android.content.Context;
@@ -223,7 +227,52 @@ public class Replay extends AppCompatActivity {
         System.out.println(ia);
         String parts[]=moves.get(ia).split(",");
         System.out.println(parts[0]+","+parts[1]);
-        b.getSquare(parts[0]).getPiece().move(parts[0],parts[1],b);
+        if(parts[0].length()>2){
+            b.getSquare(parts[0].substring(2)).getPiece().move(parts[0].substring(2),parts[1],b);
+            if(parts[0].charAt(1)=='Q'){
+                if(b.getSquare(parts[1]).getPiece().isWhite()){
+                        Queen temp = new Queen("white");
+                        b.getSquare(parts[1]).setPiece(temp);
+                }
+                else{
+                    Queen temp = new Queen("black");
+                    b.getSquare(parts[1]).setPiece(temp);
+
+                }
+            }else if(parts[0].charAt(1)=='B'){
+                if(b.getSquare(parts[1]).getPiece().isWhite()){
+                    Bishop temp = new Bishop("white");
+                    b.getSquare(parts[1]).setPiece(temp);
+                }
+                else{
+                    Bishop temp = new Bishop("black");
+                    b.getSquare(parts[1]).setPiece(temp);
+
+                }
+            }else if(parts[0].charAt(1)=='N'){
+                if(b.getSquare(parts[1]).getPiece().isWhite()){
+                    Knight temp = new Knight("white");
+                    b.getSquare(parts[1]).setPiece(temp);
+                }
+                else{
+                    Knight temp = new Knight("black");
+                    b.getSquare(parts[1]).setPiece(temp);
+
+                }
+            }else if(parts[0].charAt(1)=='R') {
+                if (b.getSquare(parts[1]).getPiece().isWhite()) {
+                    Rook temp = new Rook("white");
+                    b.getSquare(parts[1]).setPiece(temp);
+                } else {
+                    Rook temp = new Rook("black");
+                    b.getSquare(parts[1]).setPiece(temp);
+
+                }
+            }
+        }
+        else {
+            b.getSquare(parts[0]).getPiece().move(parts[0], parts[1], b);
+        }
         b.printBoard();
         ia++;
         refresh(b);
